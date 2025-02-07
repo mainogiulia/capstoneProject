@@ -13,10 +13,24 @@ import { MenuComponent } from './pages/menu/menu.component';
 import { ChiSiamoComponent } from './pages/chi-siamo/chi-siamo.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { FormsModule } from '@angular/forms';
+import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, QuizComponent, NavbarComponent, FooterComponent, ReservationComponent, MenuComponent, ChiSiamoComponent, LoginComponent, RegisterComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    QuizComponent,
+    NavbarComponent,
+    FooterComponent,
+    ReservationComponent,
+    MenuComponent,
+    ChiSiamoComponent,
+    LoginComponent,
+    RegisterComponent,
+    GelatoOrderComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideHttpClient()],
   bootstrap: [AppComponent],
 })

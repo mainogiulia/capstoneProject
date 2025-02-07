@@ -24,11 +24,19 @@
       </li>
       <li><a routerLink="/reservation" class="nav-link px-2">Prenota</a></li>
       <li><a routerLink="/chi-siamo" class="nav-link px-2">Chi siamo</a></li>
+      <li><a routerLink="/gelato-order" class="nav-link px-2">Ordina</a></li>
     </ul>
 
     <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-primary me-2">Login</button>
-      <button type="button" class="btn btn-primary">Sign-up</button>
+      <a
+        routerLink="/auth/login"
+        type="button"
+        class="btn btn-outline-primary me-2"
+        >Login</a
+      >
+      <a routerLink="/auth/register" type="button" class="btn btn-primary"
+        >Sign-up</a
+      >
     </div>
   </header>
 </div>
