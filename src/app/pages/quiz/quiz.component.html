@@ -1,0 +1,21 @@
+<div class="wrapper d-flex justify-content-center">
+  <main class="content text-center">
+    <div *ngIf="question" class="quiz-container">
+      <h2 class="text-center">{{ question.text }}</h2>
+      <ul
+        class="list-unstyled d-flex flex-wrap justify-content-center gap-3 mt-3"
+      >
+        <li *ngFor="let answer of question.answers">
+          <button class="btn btn-primary" (click)="selectAnswer(answer)">
+            {{ answer.text }}
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="drink" class="result-container">
+      <h2>Il tuo drink personalizzato è: {{ drink.name }}</h2>
+      <p>{{ drink.description }}</p>
+    </div>
+  </main>
+</div>
