@@ -14,8 +14,8 @@ import { map } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate, CanActivateChild {
-  //GUARD PER PROTEGGERE LE ROTTE SE UTENTE NON E' LOGGATO
+export class GuestGuard implements CanActivate, CanActivateChild {
+  //GUARD PER PROTEGGERE LE ROTTE SE UTENTE E' GIA' LOGGATO
   constructor(private authSvc: AuthService, private router: Router) {}
 
   canActivate(
@@ -24,14 +24,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): MaybeAsync<GuardResult> {
     return this.authSvc.isLoggedIn$.pipe(
       map((isLoggedIn) => {
-        //mi interfaccio con isLoggedIn$ che contiene un observable attraverso il quale transitano dati boolean
-
-        if (!isLoggedIn) {
-          this.router.navigate(['/auth/login']);
+        if (isLoggedIn) {
+          this.router.navigate(['/gelato-order']);
         }
 
-        return isLoggedIn; //true se l'utente è loggato, false se non lo è.
-        //false butta fuori l'utente dalle rote protette da questa guard
+        return !isLoggedIn;
       })
     );
   }
