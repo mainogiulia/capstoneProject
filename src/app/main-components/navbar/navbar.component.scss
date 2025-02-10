@@ -1,3 +1,24 @@
 header {
   padding-inline: 2rem;
+  font-family: "Afacad Flux", serif;
+  position: fixed;
+  right: 0;
+  left: 0;
+  transition: transform 0.3s ease-in-out;
+}
+
+li {
+  padding-left: 3rem;
+}
+
+header {
+  background-color: transparent;
+}
+
+a.text-yellow {
+  color: rgb(255, 154, 22);
+}
+
+.nav-link:not(.text-yellow) {
+  color: white;
 }

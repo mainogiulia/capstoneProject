@@ -1,10 +1,10 @@
-* {
-  margin: 5px;
-}
-
 //FOOTER IN FONDO ALLA PAGINA
 .wrapper {
   min-height: 100vh;
+  font-family: "Afacad Flux", serif;
+  font-size: 24px;
+  background-color: black;
+  color: white;
 }
 
 .content {
@@ -12,3 +12,45 @@
 }
 
 //
+
+.header_img {
+  height: 250px;
+  background-image: url("/img3.png");
+  background-size: cover;
+  background-position: 10%;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    text-transform: uppercase;
+    font-size: 60px;
+  }
+}
+
+.list {
+  padding-inline: 200px;
+}
+
+li {
+  color: white;
+  background-color: black;
+  padding-inline: 30px;
+  span {
+    margin-right: 60px;
+  }
+}
+
+hr {
+  width: 95%;
+  border: none;
+  height: 1px;
+  background-color: white;
+}
+
+h3 {
+  font-size: 30px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+  padding-left: 30px;
+}

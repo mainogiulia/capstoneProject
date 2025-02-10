@@ -15,17 +15,21 @@ const routes: Routes = [
   { path: 'chi-siamo', component: ChiSiamoComponent },
   { path: 'quiz', component: QuizComponent },
   { path: 'reservation', component: ReservationComponent },
-  {
-    path: 'gelato-order',
-    component: GelatoOrderComponent,
-    canActivate: [GuestGuard],
-    canActivateChild: [GuestGuard],
-  },
+  { path: 'gelato-order', component: GelatoOrderComponent },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     canActivate: [GuestGuard],
     canActivateChild: [GuestGuard],
+  },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./pages/dashboard/dashboard.module').then(
+        (m) => m.DashboardModule
+      ),
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
 ];
 

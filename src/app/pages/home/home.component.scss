@@ -1,6 +1,7 @@
 //FOOTER IN FONDO ALLA PAGINA
 .wrapper {
   min-height: 84vh;
+  font-family: "Afacad Flux", serif;
 }
 
 .content {
@@ -8,3 +9,80 @@
 }
 
 //
+
+.headerImg {
+  width: 100vw;
+}
+
+.header_img {
+  background-image: url("/img1.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+}
+
+.header_title {
+  background-color: black;
+  color: white;
+  width: 400px;
+  height: 500px;
+  margin-block: 10rem;
+  border-radius: 200px 200px 0px 0px;
+  position: relative;
+  .header_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    p:first-child {
+      text-transform: uppercase;
+    }
+  }
+}
+
+.headerLogo {
+  width: 200px;
+}
+
+.divisorio {
+  background-color: black;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  hr {
+    width: 90%;
+    border: none;
+    height: 1px;
+    background-color: white;
+  }
+}
+
+.info {
+  background-color: black;
+  padding-inline: 7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  p {
+    color: white;
+  }
+  img {
+    width: 300px;
+    flex: 1;
+    padding-inline: 7rem;
+  }
+  .orari {
+    flex: 1;
+    p:first-child {
+      text-transform: uppercase;
+    }
+  }
+  .promozione {
+    flex: 1;
+  }
+}

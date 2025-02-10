@@ -1,33 +1,62 @@
-<div>
-  <header
-    class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"
-  >
-    <div class="col-md-3 mb-2 mb-md-0">
-      <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-        <svg
-          class="bi"
-          width="40"
-          height="32"
-          role="img"
-          aria-label="Bootstrap"
-        >
-          <use xlink:href="#bootstrap"></use>
-        </svg>
-      </a>
-    </div>
+<header
+  class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3"
+  [style.transform]="animationUp"
+>
+  <div class="col-md-3 mb-2 mb-md-0">
+    <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+      <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
+        <use xlink:href="#bootstrap"></use>
+      </svg>
+    </a>
+  </div>
 
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a routerLink="/" class="nav-link px-2 link-secondary">Home</a></li>
-      <li><a routerLink="/menu" class="nav-link px-2">Menu</a></li>
-      <li>
-        <a routerLink="/quiz" class="nav-link px-2">Drink personalizzato</a>
-      </li>
-      <li><a routerLink="/reservation" class="nav-link px-2">Prenota</a></li>
-      <li><a routerLink="/chi-siamo" class="nav-link px-2">Chi siamo</a></li>
-      <li><a routerLink="/gelato-order" class="nav-link px-2">Ordina</a></li>
-    </ul>
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="text-yellow"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="nav-link px-2"
+        >Home</a
+      >
+    </li>
+    <li>
+      <a routerLink="/menu" routerLinkActive="text-yellow" class="nav-link px-2"
+        >Menu</a
+      >
+    </li>
+    <li>
+      <a routerLink="/quiz" routerLinkActive="text-yellow" class="nav-link px-2"
+        >Drink personalizzato</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/reservation"
+        routerLinkActive="text-yellow"
+        class="nav-link px-2"
+        >Prenota</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/chi-siamo"
+        routerLinkActive="text-yellow"
+        class="nav-link px-2"
+        >Chi siamo</a
+      >
+    </li>
+    <li>
+      <a
+        routerLink="/gelato-order"
+        routerLinkActive="text-yellow"
+        class="nav-link px-2"
+        >Ordina</a
+      >
+    </li>
+  </ul>
 
-    <div class="col-md-3 text-end">
+  <!-- <div class="col-md-3 text-end">
       <a
         routerLink="/auth/login"
         type="button"
@@ -37,6 +66,5 @@
       <a routerLink="/auth/register" type="button" class="btn btn-primary"
         >Sign-up</a
       >
-    </div>
-  </header>
-</div>
+    </div> -->
+</header>
