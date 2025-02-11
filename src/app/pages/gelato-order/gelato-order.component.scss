@@ -1,0 +1,44 @@
+//FOOTER IN FONDO ALLA PAGINA
+.wrapper {
+  min-height: 84vh;
+  background-color: black;
+  color: white;
+  padding-top: 200px;
+}
+
+.content {
+  flex: 1;
+}
+
+//
+
+.container {
+  margin-top: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card_wrapper {
+  border: 1px solid white;
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  padding: 3rem;
+  h3 {
+    color: rgb(255, 154, 22);
+  }
+  .cartBtn {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 154, 22);
+    font-size: 12px;
+    border-radius: 0%;
+  }
+  img {
+    border: 4px solid rgb(255, 154, 22);
+    width: 100px;
+  }
+}

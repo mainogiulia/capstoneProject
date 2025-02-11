@@ -15,6 +15,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
+import { MapComponent } from './main-components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.componen
     LoginComponent,
     RegisterComponent,
     GelatoOrderComponent,
+    MapComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideHttpClient()],

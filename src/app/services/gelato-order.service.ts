@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { iGelatoOrder } from '../interfaces/i-gelato-order';
+import { Observable } from 'rxjs';
+import { iFlavour } from '../interfaces/i-flavour';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GelatoOrderService {
-  // private gelatoOrderUrl = 'http://localhost:8080/order';
-  // constructor(private http: HttpClient) { }
-  // createOrder(gelatoOrderRequest: iGelatoOrder): Observable<iGelatoOrder> {
-  //   const headers = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.http.post<iGelatoOrder>(`${this.gelatoOrderUrl}`, gelatoOrderRequest, { headers });
-  // }
+  private apiUrl = 'http://localhost:8080/api/flavour';
+
+  constructor(private http: HttpClient) {}
+
+  getFlavours(): Observable<iFlavour[]> {
+    return this.http.get<iFlavour[]>(this.apiUrl);
+  }
 }

@@ -20,24 +20,28 @@
         >Home</a
       >
     </li>
+
     <li>
       <a routerLink="/menu" routerLinkActive="text-yellow" class="nav-link px-2"
         >Menu</a
       >
     </li>
+
     <li>
       <a routerLink="/quiz" routerLinkActive="text-yellow" class="nav-link px-2"
         >Drink personalizzato</a
       >
     </li>
-    <li>
+
+    <!-- <li>
       <a
         routerLink="/reservation"
         routerLinkActive="text-yellow"
         class="nav-link px-2"
         >Prenota</a
       >
-    </li>
+    </li> -->
+
     <li>
       <a
         routerLink="/chi-siamo"
@@ -46,6 +50,7 @@
         >Chi siamo</a
       >
     </li>
+
     <li>
       <a
         routerLink="/gelato-order"
@@ -54,17 +59,27 @@
         >Ordina</a
       >
     </li>
-  </ul>
 
-  <!-- <div class="col-md-3 text-end">
+    <li *ngIf="!isLoggedIn">
       <a
         routerLink="/auth/login"
-        type="button"
-        class="btn btn-outline-primary me-2"
+        routerLinkActive="text-yellow"
+        class="nav-link px-2"
         >Login</a
       >
-      <a routerLink="/auth/register" type="button" class="btn btn-primary"
-        >Sign-up</a
+    </li>
+
+    <li *ngIf="isLoggedIn">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="text-yellow"
+        class="nav-link px-2"
+        >Dashboard</a
       >
-    </div> -->
+    </li>
+
+    <li *ngIf="isLoggedIn">
+      <a routerLink="" class="nav-link px-2" (click)="logout()">Logout</a>
+    </li>
+  </ul>
 </header>

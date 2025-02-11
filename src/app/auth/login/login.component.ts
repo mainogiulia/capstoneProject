@@ -21,4 +21,10 @@ export class LoginComponent {
       this.router.navigate(['/dashboard']);
     });
   }
+
+  isPasswordVisible = false;
+
+  togglePassword() {
+    this.isPasswordVisible = !this.isPasswordVisible;
+  }
 }

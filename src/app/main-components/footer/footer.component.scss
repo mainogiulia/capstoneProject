@@ -1,6 +1,22 @@
 footer {
-  padding-inline: 2rem;
   font-family: "Afacad Flux", serif;
-  background-color: #521300;
-  color: rgb(255, 154, 22);
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  padding: 90px 80px 20px 80px;
+  h4 {
+    text-transform: uppercase;
+  }
+}
+
+.fine {
+  border-top: 1px solid white;
+  padding-top: 1.5rem;
+  text-align: center;
 }

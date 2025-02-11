@@ -3,21 +3,47 @@
     <div class="container">
       <h1>Login</h1>
       <form>
-        <input
-          type="text"
-          class="form-control mb-3"
-          placeholder="Username"
-          name="username"
-          [(ngModel)]="formData.username"
-        />
-        <input
-          type="password"
-          class="form-control mb-3"
-          placeholder="Password"
-          name="password"
-          [(ngModel)]="formData.password"
-        />
-        <button (click)="login()" class="btn btn-success">Accedi</button>
+        <div>
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            placeholder="Username"
+            name="username"
+            [(ngModel)]="formData.username"
+          />
+        </div>
+
+        <label for="password">Password</label>
+        <div class="input-group">
+          <input
+            [type]="isPasswordVisible ? 'text' : 'password'"
+            class="form-control mb-3"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="formData.password"
+          />
+          <button
+            class="btn mb-3 visibleBtn"
+            type="button"
+            (click)="togglePassword()"
+          >
+            <i
+              class="{{ isPasswordVisible ? 'bi bi-eye-slash' : 'bi bi-eye' }}"
+            ></i>
+          </button>
+        </div>
+
+        <button (click)="login()" class="btn btn-success loginBtn">
+          Accedi
+        </button>
+
+        <!-- <div class="dacambiare">
+          <p>Crea un altro account admin</p>
+          <a routerLink="/auth/register" class="nav-link px-2 text-yellow"
+            >Sign-up</a
+          >
+        </div> -->
       </form>
     </div>
   </main>
