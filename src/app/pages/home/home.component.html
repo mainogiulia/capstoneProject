@@ -19,18 +19,18 @@
       <div class="orari">
         <p>orari</p>
         <p>
-          Mar-Giov <br />
+          Martedì-Giovedì <br />
           18:00 - 1:00
         </p>
         <p>
-          Ven-Sab <br />
+          Venerdì-Sabato <br />
           18:00 - 3:00
         </p>
         <p>
-          Dom <br />
+          Domenica <br />
           16:00 - 1:00
         </p>
-        <p>Lun chiuso</p>
+        <p>Lunedì chiuso</p>
       </div>
       <img src="/img2.png" alt="img2" />
       <div class="promozione">
@@ -40,6 +40,84 @@
           cocktail!
         </p>
       </div>
+    </div>
+
+    <div class="divisorio">
+      <hr />
+    </div>
+
+    <div class="reservation_container">
+      <h3>Prenota un tavolo!</h3>
+
+      <div class="success-message" *ngIf="successMessage">
+        {{ successMessage }}
+      </div>
+
+      <form (ngSubmit)="createReservation()">
+        <div>
+          <label for="customerName">Nome</label>
+          <input
+            id="customerName"
+            [(ngModel)]="newReservation.customerName"
+            name="customerName"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input
+            id="email"
+            [(ngModel)]="newReservation.email"
+            name="email"
+            type="email"
+            required
+          />
+        </div>
+
+        <div>
+          <label for="reservationDate">Data</label>
+          <input
+            id="reservationDate"
+            [(ngModel)]="newReservation.reservationDate"
+            name="reservationDate"
+            type="date"
+            required
+            [min]="minDate"
+            [max]="maxDate"
+          />
+        </div>
+
+        <div>
+          <label for="reservationTime">Orario</label>
+          <select
+            id="reservationTime"
+            [(ngModel)]="newReservation.reservationTime"
+            name="reservationTime"
+            required
+          >
+            <option *ngFor="let time of availableTimes" [value]="time">
+              {{ time }}
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label for="numberOfGuests">Numero Ospiti</label>
+          <input
+            id="numberOfGuests"
+            [(ngModel)]="newReservation.numberOfGuests"
+            name="numberOfGuests"
+            type="number"
+            required
+            min="1"
+          />
+        </div>
+
+        <div>
+          <button type="submit">Prenota</button>
+        </div>
+      </form>
     </div>
 
     <div class="divisorio">

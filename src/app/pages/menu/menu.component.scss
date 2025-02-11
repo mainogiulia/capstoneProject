@@ -3,8 +3,8 @@
   min-height: 100vh;
   font-family: "Afacad Flux", serif;
   font-size: 24px;
-  background-color: black;
   color: white;
+  background-color: black;
 }
 
 .content {
@@ -30,6 +30,11 @@
 
 .list {
   padding-inline: 200px;
+}
+
+ul {
+  margin-bottom: 0;
+  padding-bottom: 1rem;
 }
 
 li {

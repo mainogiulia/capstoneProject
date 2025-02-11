@@ -3,6 +3,7 @@ export interface iReservation {
   customerName: string;
   email: string;
   reservationDate: string;
+  reservationTime: string;
   numberOfGuests: number;
   cancellationCode?: string;
 }
