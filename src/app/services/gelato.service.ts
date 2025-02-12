@@ -6,7 +6,7 @@ import { iFlavour } from '../interfaces/i-flavour';
 @Injectable({
   providedIn: 'root',
 })
-export class GelatoOrderService {
+export class GelatoService {
   private apiUrl = 'http://localhost:8080/api/flavour';
 
   constructor(private http: HttpClient) {}

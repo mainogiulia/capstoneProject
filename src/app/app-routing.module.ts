@@ -5,9 +5,11 @@ import { MenuComponent } from './pages/menu/menu.component';
 import { ChiSiamoComponent } from './pages/chi-siamo/chi-siamo.component';
 import { QuizComponent } from './pages/quiz/quiz.component';
 import { ReservationComponent } from './pages/reservation/reservation.component';
-import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { GuestGuard } from './auth/guards/guest.guard';
+import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
+import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
+import { GelatoComponent } from './pages/gelato/gelato.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -15,7 +17,7 @@ const routes: Routes = [
   { path: 'chi-siamo', component: ChiSiamoComponent },
   { path: 'quiz', component: QuizComponent },
   { path: 'reservation', component: ReservationComponent },
-  { path: 'gelato-order', component: GelatoOrderComponent },
+  { path: 'gelato-order', component: GelatoComponent },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
@@ -31,6 +33,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
   },
+  { path: 'success', component: PaymentSuccessComponent },
+  { path: 'cancel', component: PaymentCancelComponent },
 ];
 
 @NgModule({

@@ -14,8 +14,11 @@ import { ChiSiamoComponent } from './pages/chi-siamo/chi-siamo.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule } from '@angular/forms';
-import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
 import { MapComponent } from './main-components/map/map.component';
+import { GelatoComponent } from './pages/gelato/gelato.component';
+import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
+import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
+import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 
 @NgModule({
   declarations: [
@@ -29,8 +32,11 @@ import { MapComponent } from './main-components/map/map.component';
     ChiSiamoComponent,
     LoginComponent,
     RegisterComponent,
-    GelatoOrderComponent,
+    GelatoComponent,
     MapComponent,
+    GelatoOrderComponent,
+    PaymentSuccessComponent,
+    PaymentCancelComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [provideHttpClient()],
