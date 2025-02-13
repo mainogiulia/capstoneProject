@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideHttpClient } from '@angular/common/http';
@@ -16,7 +15,6 @@ import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule } from '@angular/forms';
 import { MapComponent } from './main-components/map/map.component';
 import { GelatoComponent } from './pages/gelato/gelato.component';
-import { GelatoOrderComponent } from './pages/gelato-order/gelato-order.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 
@@ -34,7 +32,6 @@ import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.co
     RegisterComponent,
     GelatoComponent,
     MapComponent,
-    GelatoOrderComponent,
     PaymentSuccessComponent,
     PaymentCancelComponent,
   ],

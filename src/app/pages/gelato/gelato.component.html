@@ -1,6 +1,70 @@
 <div class="wrapper">
   <main class="content">
     <div class="container">
+      <div>
+        <div *ngIf="cart.length > 0">
+          <button
+            class="btn cartBtn"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight"
+          >
+            Visualizza carrello ({{ cart.length }})
+          </button>
+
+          <div
+            class="offcanvas offcanvas-end px-4 pb-3"
+            tabindex="-1"
+            id="offcanvasRight"
+            aria-labelledby="offcanvasRightLabel"
+          >
+            <div class="offcanvas-header">
+              <h3 id="offcanvasRightLabel">Carrello</h3>
+              <button
+                type="button"
+                class="btn-close text-reset"
+                data-bs-dismiss="offcanvas"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="off-body">
+              <div *ngFor="let flavour of cart" class="cart-item">
+                <span>{{ flavour.name }}</span>
+                <button
+                  class="btn"
+                  type="button"
+                  (click)="removeFromOrder(flavour)"
+                >
+                  <i class="bi bi-trash3"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="offcanvas-footer">
+              <div class="subtotal">
+                <h5>Subtotale</h5>
+                <p>€{{ cart.length * 2 }},00</p>
+              </div>
+              <div class="off-btn">
+                <button class="btn pay-btn" (click)="createOrder()">
+                  <img
+                    src="/paypal_logo.png"
+                    alt="paypalLogo"
+                    class="paypal_logo"
+                  />
+                </button>
+                <button class="btn empty-btn" (click)="clearCart()">
+                  Svuota carrello
+                </button>
+                <p><i class="bi bi-lock-fill"></i>Pagamento sicuro</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-4" *ngFor="let flavour of flavours">
           <div class="card_wrapper">
@@ -18,67 +82,13 @@
             </div>
 
             <div class="btn_container">
-              <button class="btn cartBtn" (click)="addToOrder(flavour)">
+              <button class="btn itemBtn" (click)="addToOrder(flavour)">
                 Aggiungi al carrello
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div>
-      <div *ngIf="cart.length > 0">
-        <button
-          class="btn btn-primary"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-        >
-          Visualizza carrello
-        </button>
-
-        <div
-          class="offcanvas offcanvas-end"
-          tabindex="-1"
-          id="offcanvasRight"
-          aria-labelledby="offcanvasRightLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Offcanvas right</h5>
-            <button
-              type="button"
-              class="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="offcanvas-body">
-            <h3>Carrello:</h3>
-            <ul>
-              <li *ngFor="let flavour of cart">{{ flavour.name }}</li>
-            </ul>
-            <button class="btn btn-success" (click)="createOrder()">
-              Procedi al pagamento
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="paymentStatus === 'success'" class="alert alert-success">
-      <h2>Pagamento completato con successo!</h2>
-      <p>
-        La tua transazione è stata completata con successo. Grazie per il tuo
-        acquisto!
-      </p>
-    </div>
-
-    <div *ngIf="paymentStatus === 'error'" class="alert alert-danger">
-      <h2>Errore nel pagamento!</h2>
-      <p>
-        C'è stato un problema con il pagamento. Per favore, riprova più tardi.
-      </p>
     </div>
   </main>
 </div>

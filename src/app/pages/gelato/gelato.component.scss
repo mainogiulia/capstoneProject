@@ -4,6 +4,7 @@
   background-color: black;
   color: white;
   padding-top: 200px;
+  font-family: "Afacad Flux", serif;
 }
 
 .content {
@@ -29,7 +30,7 @@
   h3 {
     color: rgb(255, 154, 22);
   }
-  .cartBtn {
+  .itemBtn {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -40,5 +41,60 @@
   img {
     border: 4px solid rgb(255, 154, 22);
     width: 100px;
+  }
+}
+
+.cartBtn {
+  border: 1px solid rgb(255, 154, 22);
+  color: rgb(255, 154, 22);
+  margin-bottom: 2rem;
+}
+
+.offcanvas-header {
+  border-bottom: 2px solid black;
+  padding-inline: 0;
+  padding-block: 0.5rem;
+}
+
+.off-body {
+  flex: 1;
+  .cart-item {
+    border-bottom: 1px solid black;
+    padding-inline: 0;
+    padding-block: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    button {
+      padding: 0;
+    }
+  }
+}
+
+.offcanvas-footer {
+  .subtotal {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid black;
+    padding-block: 0.5rem;
+  }
+  .off-btn {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    .pay-btn {
+      color: white;
+      margin-bottom: 1rem;
+      background-color: #ffc439;
+      .paypal_logo {
+        width: 100px;
+      }
+    }
+    .empty-btn {
+      border: 1px solid rgb(32, 32, 32);
+    }
+    p {
+      padding-top: 0.5rem;
+    }
   }
 }

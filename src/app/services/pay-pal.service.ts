@@ -1,4 +1,8 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 
@@ -11,10 +15,10 @@ export class PayPalService {
   constructor(private http: HttpClient) {}
 
   //CREO L'ORDINE DI PAYPAL
-  createOrder(): Observable<{ approvalUrl: string }> {
+  createOrder(totalScoops: number): Observable<{ approvalUrl: string }> {
     return this.http
       .post<{ approvalUrl: string }>(
-        `${this.apiUrl}/paypal/createOrder`,
+        `${this.apiUrl}/paypal/createOrder?totalScoops=${totalScoops}`,
         {},
         {
           headers: { 'Content-Type': 'application/json' },
@@ -33,7 +37,6 @@ export class PayPalService {
           `body era: ${error.error}`
       );
     }
-
     return throwError(
       () =>
         new Error('Si è verificato un errore. Per favore riprova più tardi.')
@@ -41,14 +44,17 @@ export class PayPalService {
   }
 
   //CATTURO L'ORDINE DI PAYPAL
-  captureOrder(token: string): Observable<string> {
-    return this.http
-      .post<string>(`${this.apiUrl}/paypal/captureOrder`, { token })
-      .pipe(
-        catchError((error) => {
-          console.error("Errore durante la cattura dell'ordine PayPal:", error);
-          return throwError(() => new Error('Errore cattura PayPal'));
-        })
-      );
+  captureOrder(
+    token: string
+  ): Observable<{ status: string; transactionId?: string; message: string }> {
+    return this.http.post<{
+      status: string;
+      transactionId?: string;
+      message: string;
+    }>(
+      'http://localhost:8080/paypal/captureOrder',
+      null, // Nessun body richiesto
+      { params: new HttpParams().set('token', token) }
+    );
   }
 }
