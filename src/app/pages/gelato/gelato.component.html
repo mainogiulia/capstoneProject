@@ -66,13 +66,13 @@
       </div>
 
       <div class="row">
-        <div class="col-md-4" *ngFor="let flavour of flavours">
+        <h2>Crema</h2>
+        <div class="col-md-4" *ngFor="let flavour of creamFlavours">
           <div class="card_wrapper">
             <div class="info_container">
               <h3>{{ flavour.name }}</h3>
               <p>{{ flavour.description }}</p>
             </div>
-
             <div class="img_container">
               <img
                 src="/gelato_ex.webp"
@@ -80,11 +80,24 @@
                 alt="Immagine Gusto"
               />
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div class="btn_container">
-              <button class="btn itemBtn" (click)="addToOrder(flavour)">
-                Aggiungi al carrello
-              </button>
+      <div class="row">
+        <h2>Frutta</h2>
+        <div class="col-md-4" *ngFor="let flavour of fruitFlavours">
+          <div class="card_wrapper">
+            <div class="info_container">
+              <h3>{{ flavour.name }}</h3>
+              <p>{{ flavour.description }}</p>
+            </div>
+            <div class="img_container">
+              <img
+                src="/gelato_ex.webp"
+                class="card-img-top"
+                alt="Immagine Gusto"
+              />
             </div>
           </div>
         </div>

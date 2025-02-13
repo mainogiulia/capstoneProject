@@ -12,6 +12,8 @@ declare var bootstrap: any;
 export class GelatoComponent implements OnInit {
   flavours: iFlavour[] = [];
   cart: iFlavour[] = [];
+  creamFlavours: iFlavour[] = [];
+  fruitFlavours: iFlavour[] = [];
   paymentStatus: string = '';
 
   constructor(
@@ -22,6 +24,8 @@ export class GelatoComponent implements OnInit {
   ngOnInit(): void {
     this.gelatoSvc.getFlavours().subscribe((data) => {
       this.flavours = data;
+      this.creamFlavours = this.flavours.filter((f) => f.type === 'CREMA');
+      this.fruitFlavours = this.flavours.filter((f) => f.type === 'FRUTTA');
     });
     const savedCart = sessionStorage.getItem('cart');
     if (savedCart) {
