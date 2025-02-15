@@ -9,7 +9,6 @@ import { NavbarComponent } from './main-components/navbar/navbar.component';
 import { FooterComponent } from './main-components/footer/footer.component';
 import { ReservationComponent } from './pages/reservation/reservation.component';
 import { MenuComponent } from './pages/menu/menu.component';
-import { ChiSiamoComponent } from './pages/chi-siamo/chi-siamo.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +26,6 @@ import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.co
     FooterComponent,
     ReservationComponent,
     MenuComponent,
-    ChiSiamoComponent,
     LoginComponent,
     RegisterComponent,
     GelatoComponent,
