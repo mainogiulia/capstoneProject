@@ -41,27 +41,5 @@
         >Ordina</a
       >
     </li>
-
-    <li *ngIf="!isLoggedIn">
-      <a
-        routerLink="/auth/login"
-        routerLinkActive="text-yellow"
-        class="nav-link px-2"
-        >Login</a
-      >
-    </li>
-
-    <li *ngIf="isLoggedIn">
-      <a
-        routerLink="/dashboard"
-        routerLinkActive="text-yellow"
-        class="nav-link px-2"
-        >Dashboard</a
-      >
-    </li>
-
-    <li *ngIf="isLoggedIn">
-      <a routerLink="" class="nav-link px-2" (click)="logout()">Logout</a>
-    </li>
   </ul>
 </header>

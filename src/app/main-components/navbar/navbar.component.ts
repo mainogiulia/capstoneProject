@@ -7,10 +7,6 @@ import { AuthService } from '../../auth/services/auth.service';
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
-  constructor(private authSvc: AuthService) {}
-
-  isLoggedIn: boolean = false;
-
   animationUp: string = 'translateY(0)';
 
   @HostListener('window:scroll', ['$event'])
@@ -20,16 +16,5 @@ export class NavbarComponent {
     } else {
       this.animationUp = 'translateY(0)';
     }
-  }
-
-  ngOnInit() {
-    this.authSvc.isLoggedIn$.subscribe((isLoggedIn) => {
-      this.isLoggedIn = isLoggedIn;
-    });
-  }
-
-  logout(): void {
-    this.authSvc.logout();
-    this.isLoggedIn = false;
   }
 }

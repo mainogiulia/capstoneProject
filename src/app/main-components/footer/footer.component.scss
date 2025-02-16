@@ -1,22 +1,54 @@
 footer {
-  font-family: "Afacad Flux", serif;
+  font-family: "Poiret One", serif;
   background-color: black;
   color: white;
   display: flex;
   flex-direction: column;
-}
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-.info {
-  display: flex;
-  justify-content: space-between;
-  padding: 90px 80px 20px 80px;
-  h4 {
-    text-transform: uppercase;
+    .sub_info {
+      display: flex;
+      padding-block: 50px;
+      display: flex;
+      justify-content: center;
+      border-top: 2px solid rgb(71, 68, 68);
+      margin-inline: 5%;
+
+      .footerLogo {
+        img {
+          width: 250px;
+        }
+      }
+
+      .contacts {
+        border-left: 2px solid rgb(71, 68, 68);
+        padding-left: 2rem;
+        h5,
+        p {
+          padding-left: 4px;
+        }
+        .icons {
+          i {
+            padding-right: 7px;
+            padding-left: 4px;
+          }
+        }
+        a {
+          padding-top: 10px;
+          i {
+            font-size: large;
+          }
+        }
+      }
+    }
+
+    .fine {
+      border-top: 2px solid rgb(71, 68, 68);
+      padding-top: 1.5rem;
+      text-align: center;
+    }
   }
-}
-
-.fine {
-  border-top: 1px solid white;
-  padding-top: 1.5rem;
-  text-align: center;
 }

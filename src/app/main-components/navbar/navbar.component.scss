@@ -1,10 +1,17 @@
 header {
   padding-inline: 2rem;
-  font-family: "Afacad Flux", serif;
+  font-family: "Poiret One", serif;
   position: fixed;
   right: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
+  font-weight: 600;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
 }
 
 li {

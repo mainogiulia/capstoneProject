@@ -7,7 +7,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { QuizComponent } from './pages/quiz/quiz.component';
 import { NavbarComponent } from './main-components/navbar/navbar.component';
 import { FooterComponent } from './main-components/footer/footer.component';
-import { ReservationComponent } from './pages/reservation/reservation.component';
 import { MenuComponent } from './pages/menu/menu.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -24,7 +23,6 @@ import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.co
     QuizComponent,
     NavbarComponent,
     FooterComponent,
-    ReservationComponent,
     MenuComponent,
     LoginComponent,
     RegisterComponent,
