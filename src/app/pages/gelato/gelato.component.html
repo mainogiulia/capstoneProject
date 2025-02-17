@@ -65,48 +65,42 @@
         </div>
       </div>
 
-      <div class="row">
-        <h2>Crema</h2>
+      <h2>Crema</h2>
+      <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
         <div class="col-md-4" *ngFor="let flavour of creamFlavours">
-          <div class="card_wrapper">
-            <div class="info_container">
-              <h3>{{ flavour.name }}</h3>
-              <p>{{ flavour.description }}</p>
-            </div>
-            <div class="img_container">
-              <img
-                src="/gelato_ex.webp"
-                class="card-img-top"
-                alt="Immagine Gusto"
-              />
+          <div class="card">
+            <div class="card_img"></div>
+
+            <div class="card-body">
+              <h5 class="card-title">{{ flavour.name }}</h5>
+              <p class="card-text">
+                {{ flavour.description }}
+              </p>
             </div>
             <div class="btn_container">
               <button class="btn cartBtn" (click)="addToOrder(flavour)">
-                Aggiungi al carrello
+                <i class="bi bi-cart-plus"></i>
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <h2>Frutta</h2>
+      <h2>Frutta</h2>
+      <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
         <div class="col-md-4" *ngFor="let flavour of fruitFlavours">
-          <div class="card_wrapper">
-            <div class="info_container">
-              <h3>{{ flavour.name }}</h3>
-              <p>{{ flavour.description }}</p>
-            </div>
-            <div class="img_container">
-              <img
-                src="/gelato_ex.webp"
-                class="card-img-top"
-                alt="Immagine Gusto"
-              />
+          <div class="card">
+            <div class="card_img"></div>
+
+            <div class="card-body">
+              <h5 class="card-title">{{ flavour.name }}</h5>
+              <p class="card-text">
+                {{ flavour.description }}
+              </p>
             </div>
             <div class="btn_container">
               <button class="btn cartBtn" (click)="addToOrder(flavour)">
-                Aggiungi al carrello
+                <i class="bi bi-cart-plus"></i>
               </button>
             </div>
           </div>

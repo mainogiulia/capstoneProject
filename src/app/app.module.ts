@@ -11,7 +11,6 @@ import { MenuComponent } from './pages/menu/menu.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule } from '@angular/forms';
-import { MapComponent } from './main-components/map/map.component';
 import { GelatoComponent } from './pages/gelato/gelato.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
@@ -27,7 +26,6 @@ import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.co
     LoginComponent,
     RegisterComponent,
     GelatoComponent,
-    MapComponent,
     PaymentSuccessComponent,
     PaymentCancelComponent,
   ],
