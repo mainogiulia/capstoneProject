@@ -8,6 +8,7 @@ import { GuestGuard } from './auth/guards/guest.guard';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 import { GelatoComponent } from './pages/gelato/gelato.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,12 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
     canActivate: [GuestGuard],
     canActivateChild: [GuestGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
   },
   {
     path: 'dashboard',

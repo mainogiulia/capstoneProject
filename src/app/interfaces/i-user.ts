@@ -5,4 +5,5 @@ export interface iUser {
   email: string;
   nome: string;
   cognome: string;
+  roles: 'ADMIN';
 }

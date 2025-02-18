@@ -96,7 +96,7 @@
 }
 
 .reservation_container {
-  padding-inline: 15rem;
+  padding-inline: 12rem;
   h3 {
     text-align: center;
     font-size: 40px;
@@ -145,6 +145,92 @@
       width: 140px;
     }
   }
+}
+
+//POPOVER
+.popover-container {
+  position: relative;
+  display: inline-block;
+  &:hover .popover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+.popover {
+  font-family: "Poiret One", serif;
+  position: absolute;
+  bottom: 150%;
+  left: -10%;
+  transform: translateY(50%);
+  background-color: black;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 8px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, transform 0.3s;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 32%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.7) transparent transparent transparent;
+  }
+}
+
+//POPUP
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  border: 2px solid rgb(255, 154, 22);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  text-align: center;
+}
+
+.close-btn {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: black;
+  color: rgb(255, 154, 22);
+  border: 1px solid rgb(255, 154, 22);
+  border-radius: 5px;
+  &:hover {
+    background-color: rgb(255, 154, 22);
+    color: black;
+    border: 1px solid black;
+  }
+}
+
+.cancelForm {
+  padding-top: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  padding-bottom: 1rem;
+  i {
+    color: white;
+  }
+}
+
+.cancelBtn {
+  min-width: 210px;
+  white-space: nowrap;
 }
 
 #map {

@@ -1,11 +1,48 @@
 <div class="wrapper">
   <main class="content">
+    <div *ngIf="errorMessage" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <h2>Lista Prenotazioni</h2>
+    <table *ngIf="reservations.length > 0">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Data</th>
+          <th>Orario</th>
+          <th>Numero Ospiti</th>
+          <th>Azioni</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservations">
+          <td>{{ reservation.id }}</td>
+          <td>{{ reservation.customerName }}</td>
+          <td>{{ reservation.email }}</td>
+          <td>{{ reservation.reservationDate | date }}</td>
+          <td>{{ reservation.reservationTime }}</td>
+          <td>{{ reservation.numberOfGuests }}</td>
+          <td>
+            <button
+              *ngIf="reservation.id"
+              (click)="deleteReservation(reservation.id)"
+            >
+              Elimina
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="reservations.length === 0">
+      <p>Nessuna prenotazione trovata.</p>
+    </div>
+
     <div class="dacambiare">
       <p>Crea un altro account admin</p>
-
-      <a routerLink="/auth/register" class="nav-link px-2 text-yellow"
-        >Sign-up</a
-      >
+      <a routerLink="/register" class="nav-link px-2 text-yellow">Sign-up</a>
     </div>
   </main>
 </div>

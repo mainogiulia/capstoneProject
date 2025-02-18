@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { iReservation } from '../../interfaces/i-reservation';
 import { ReservationService } from '../../services/reservation.service';
 import L from 'leaflet';
+import { iCancelReservation } from '../../interfaces/i-cancel-reservation';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import L from 'leaflet';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent {
+  //NUOVA PRENOTAZIONE
   newReservation: iReservation = {
     customerName: '',
     email: '',
@@ -17,7 +19,14 @@ export class HomeComponent {
     numberOfGuests: 0,
   };
 
+  //CANCELLAZIONE PRENOTAZIONE
+  cancelRequest: iCancelReservation = {
+    customerName: '',
+    cancellationCode: '',
+  };
+
   successMessage: string = '';
+  cancelMessage: string = '';
   availableTimes: string[] = [];
 
   constructor(private reservationSvc: ReservationService) {}
@@ -61,6 +70,34 @@ export class HomeComponent {
   maxDate = new Date(new Date().setMonth(new Date().getMonth() + 6))
     .toISOString()
     .split('T')[0]; // PRENDE SOLO "YYYY-MM-DD"
+
+  //CANCELLAZIONE PRENOTAZIONE
+  cancelReservation(): void {
+    this.reservationSvc.cancelReservation(this.cancelRequest).subscribe({
+      next: () => {
+        this.cancelMessage = 'Prenotazione cancellata con successo!';
+        this.clearCancelForm();
+      },
+      error: () => {
+        this.cancelMessage =
+          'Errore: prenotazione non trovata o codice errato.';
+      },
+    });
+  }
+
+  clearCancelForm(): void {
+    this.cancelRequest = {
+      customerName: '',
+      cancellationCode: '',
+    };
+  }
+
+  //POPUP CANCELLAZIONE
+  isPopupVisible = false;
+
+  togglePopup(): void {
+    this.isPopupVisible = !this.isPopupVisible;
+  }
 
   //PER LA MAPPA
   private map!: L.Map;
