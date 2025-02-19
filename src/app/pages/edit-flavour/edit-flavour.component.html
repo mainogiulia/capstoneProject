@@ -27,6 +27,9 @@
           name="description"
         ></textarea>
 
+        <label for="image">Immagine:</label>
+        <input type="file" id="image" (change)="onImageChange($event)" />
+
         <button type="submit">Modifica gusto</button>
         <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
       </form>

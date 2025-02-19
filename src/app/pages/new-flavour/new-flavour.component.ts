@@ -13,11 +13,32 @@ export class NewFlavourComponent {
     name: '',
     type: 'CREMA', //DEFAULT POI ADMIN LO CAMBIA DAL FORM
     description: '',
+    imagePath: '',
   };
 
   errorMessage: string = '';
+  selectedFile: File | null = null;
 
   constructor(private gelatoSvc: GelatoService, private router: Router) {}
+
+  //GESTISCO LA SELEZIONE DI UN FILE TRAMITE IL CAMPO INPUT FILE
+  onFileChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input?.files?.length) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  onImageUpload(file: File) {
+    this.gelatoSvc.uploadImage(file).subscribe({
+      next: (imagePath: string) => {
+        this.newFlavour.imagePath = imagePath; // Salva il percorso dell'immagine caricato
+      },
+      error: (error) => {
+        console.error("Errore nel caricamento dell'immagine", error);
+      },
+    });
+  }
 
   onSubmit(): void {
     if (!this.newFlavour.name || !this.newFlavour.type) {
@@ -25,6 +46,24 @@ export class NewFlavourComponent {
       return;
     }
 
+    // SE E' STATO SELEZIONATO UN FILE, CARICALO PRIMA DI INVIARE IL GUSTO
+    if (this.selectedFile) {
+      this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
+        next: (imageUrl) => {
+          this.newFlavour.imagePath = imageUrl;
+          this.createFlavour();
+        },
+        error: (error) => {
+          this.errorMessage = "Errore nell'upload dell'immagine.";
+          console.error(error);
+        },
+      });
+    } else {
+      this.createFlavour();
+    }
+  }
+
+  private createFlavour(): void {
     this.gelatoSvc.createFlavour(this.newFlavour).subscribe({
       next: () => {
         this.router.navigate(['/dashboard']);

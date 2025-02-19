@@ -72,7 +72,12 @@
       <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
         <div class="col-md-4" *ngFor="let flavour of creamFlavours">
           <div class="card">
-            <div class="card_img"></div>
+            <div class="card_img">
+              <img
+                [src]="'http://localhost:8080/' + flavour.imagePath"
+                alt="{{ flavour.name }}"
+              />
+            </div>
 
             <div class="card-body">
               <h5 class="card-title">{{ flavour.name }}</h5>
@@ -93,7 +98,12 @@
       <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
         <div class="col-md-4" *ngFor="let flavour of fruitFlavours">
           <div class="card">
-            <div class="card_img"></div>
+            <div class="card_img">
+              <img
+                [src]="'http://localhost:8080/' + flavour.imagePath"
+                alt="{{ flavour.name }}"
+              />
+            </div>
 
             <div class="card-body">
               <h5 class="card-title">{{ flavour.name }}</h5>
