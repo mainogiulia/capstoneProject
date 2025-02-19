@@ -5,12 +5,13 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PayPalService {
-  private apiUrl = 'http://localhost:8080';
+  paypalUrl = environment.paypalUrl; // URL DEL BACKEND
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,7 @@ export class PayPalService {
   createOrder(totalScoops: number): Observable<{ approvalUrl: string }> {
     return this.http
       .post<{ approvalUrl: string }>(
-        `${this.apiUrl}/paypal/createOrder?totalScoops=${totalScoops}`,
+        `${this.paypalUrl}/paypal/createOrder?totalScoops=${totalScoops}`,
         {},
         {
           headers: { 'Content-Type': 'application/json' },

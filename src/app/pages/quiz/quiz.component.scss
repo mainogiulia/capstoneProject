@@ -3,6 +3,7 @@
   min-height: 84vh;
   background-color: black;
   font-family: "Poiret One", serif;
+  color: white;
 }
 
 .content {
@@ -10,6 +11,27 @@
 }
 
 //
+
+.header_img {
+  height: 300px;
+  background-image: url("/img6.png");
+  background-size: cover;
+  background-position: center -40px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h1 {
+    background-color: rgba(0, 0, 0, 0.821);
+    height: 80px;
+    width: 500px;
+    text-transform: uppercase;
+    font-size: 50px;
+    font-weight: 600;
+    padding-block: 12px;
+    width: 550px;
+  }
+}
 
 button {
   min-width: 150px;

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { iQuestion } from '../interfaces/i-question';
 import { iDrink } from '../interfaces/i-drink';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuizService {
-  private quizUrl = 'http://localhost:8080/quiz'; // URL del backend
+  quizUrl: string = environment.quizUrl; // URL DEL BACKEND
 
   constructor(private http: HttpClient) {}
 

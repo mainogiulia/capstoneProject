@@ -24,14 +24,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): MaybeAsync<GuardResult> {
     return this.authSvc.isLoggedIn$.pipe(
       map((isLoggedIn) => {
-        //mi interfaccio con isLoggedIn$ che contiene un observable attraverso il quale transitano dati boolean
+        //MI INTERFACCIO CON isLoggedIn$ CHE CONTIENE UN OBSERVABLE ATTRAVERSO IL QUALE TRANSITANO DATI BOOLEANI
 
         if (!isLoggedIn) {
           this.router.navigate(['/auth/login']);
         }
 
-        return isLoggedIn; //true se l'utente è loggato, false se non lo è.
-        //false butta fuori l'utente dalle rote protette da questa guard
+        return isLoggedIn; // false BUTTA FUORI L'UTENTE DEALLE ROTTE PROTETTE DA QUESTA GUARD
       })
     );
   }

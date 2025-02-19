@@ -2,21 +2,24 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { iFlavour } from '../interfaces/i-flavour';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GelatoService {
-  private flavourUrl = 'http://localhost:8080/api/flavour';
+  flavourUrl: string = environment.flavourUrl; // URL DEL BACKEND
 
   constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
+    //AGGIUNGO AUTOMATICAMENTE IL TOKEN DI AUTENTICAZIONE ALLA CHIAMATA HTTP
     const token = localStorage.getItem('accessData')
       ? JSON.parse(localStorage.getItem('accessData')!).token
       : null;
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
+
   //RECUPERO TUTTI I GUSTI
   getFlavours(): Observable<iFlavour[]> {
     return this.http.get<iFlavour[]>(this.flavourUrl);
