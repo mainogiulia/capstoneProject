@@ -1,0 +1,31 @@
+<div class="wrapper">
+  <main class="content">
+    <div class="header_img"></div>
+    <form (ngSubmit)="onSubmit()">
+      <label for="name">Flavour Name:</label>
+      <input
+        id="name"
+        type="text"
+        [(ngModel)]="newFlavour.name"
+        name="name"
+        required
+      />
+
+      <label for="type">Type:</label>
+      <select id="type" [(ngModel)]="newFlavour.type" name="type">
+        <option value="CREMA">Crema</option>
+        <option value="FRUTTA">Frutta</option>
+      </select>
+
+      <label for="description">Description:</label>
+      <textarea
+        id="description"
+        [(ngModel)]="newFlavour.description"
+        name="description"
+      ></textarea>
+
+      <button type="submit">Create Flavour</button>
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+    </form>
+  </main>
+</div>

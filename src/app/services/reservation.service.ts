@@ -12,46 +12,25 @@ export class ReservationService {
 
   constructor(private http: HttpClient) {}
 
-  //RECUPERO TUTTE LE PRENOTAZIONI
-  getReservations(): Observable<iReservation[]> {
-    const storedData = localStorage.getItem('accessData');
-
-    if (!storedData) {
-      console.error('Nessun token trovato!');
-      return throwError(() => new Error('Nessun token trovato'));
-    }
-
-    const parsedData = JSON.parse(storedData);
-    const token = parsedData.token;
-
-    if (!token) {
-      console.error('Token JWT mancante!');
-      return throwError(() => new Error('Token JWT mancante'));
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.get<iReservation[]>(this.reservationUrl, { headers });
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('accessData')
+      ? JSON.parse(localStorage.getItem('accessData')!).token
+      : null;
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  //ELIMINAZIONE PRENOTAZIONE DA PARTE DELL'ADMIN
+  //RECUPERO TUTTE LE PRENOTAZIONI (ADMIN)
+  getReservations(): Observable<iReservation[]> {
+    return this.http.get<iReservation[]>(this.reservationUrl, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  //ELIMINAZIONE PRENOTAZIONE (ADMIN)
   deleteReservation(id: number): Observable<void> {
-    const storedData = localStorage.getItem('accessData');
-
-    if (!storedData) {
-      console.error('Nessun token trovato!');
-      return throwError(() => new Error('Nessun token trovato'));
-    }
-
-    const parsedData = JSON.parse(storedData); // Decodifica il JSON
-    const token = parsedData.token; // Estrai SOLO il token
-
-    if (!token) {
-      console.error('Token JWT mancante!');
-      return throwError(() => new Error('Token JWT mancante'));
-    }
-
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.delete<void>(`${this.reservationUrl}/${id}`, { headers });
+    return this.http.delete<void>(`${this.reservationUrl}/${id}`, {
+      headers: this.getHeaders(),
+    });
   }
 
   //CREO UNA NUOVA PRENOTAZIONE

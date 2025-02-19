@@ -15,6 +15,8 @@ import { GelatoComponent } from './pages/gelato/gelato.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { EditFlavourComponent } from './pages/edit-flavour/edit-flavour.component';
+import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     GelatoComponent,
     PaymentSuccessComponent,
     PaymentCancelComponent,
+    EditFlavourComponent,
+    NewFlavourComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [

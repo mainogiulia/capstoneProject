@@ -1,0 +1,35 @@
+<div class="wrapper">
+  <main class="content">
+    <div class="header_img"></div>
+    <div class="edit-flavour-container">
+      <h2>Edit Flavour</h2>
+
+      <form (ngSubmit)="onSubmit()">
+        <label for="name">Nome:</label>
+        <input
+          id="name"
+          type="text"
+          [(ngModel)]="flavour.name"
+          name="name"
+          required
+        />
+
+        <label for="type">Tipo:</label>
+        <select id="type" [(ngModel)]="flavour.type" name="type">
+          <option value="CREMA">Crema</option>
+          <option value="FRUTTA">Frutta</option>
+        </select>
+
+        <label for="description">Descrizione:</label>
+        <textarea
+          id="description"
+          [(ngModel)]="flavour.description"
+          name="description"
+        ></textarea>
+
+        <button type="submit">Modifica gusto</button>
+        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+      </form>
+    </div>
+  </main>
+</div>

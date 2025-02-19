@@ -9,6 +9,8 @@ import { PaymentSuccessComponent } from './pages/payment-success/payment-success
 import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 import { GelatoComponent } from './pages/gelato/gelato.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
+import { EditFlavourComponent } from './pages/edit-flavour/edit-flavour.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -38,6 +40,18 @@ const routes: Routes = [
   },
   { path: 'success', component: PaymentSuccessComponent },
   { path: 'cancel', component: PaymentCancelComponent },
+  {
+    path: 'new-flavour',
+    component: NewFlavourComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: 'edit-flavour/:id',
+    component: EditFlavourComponent,
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard],
+  },
 ];
 
 @NgModule({

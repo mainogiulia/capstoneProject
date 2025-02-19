@@ -8,12 +8,12 @@
     <table *ngIf="reservations.length > 0">
       <thead>
         <tr>
+          <th>#</th>
           <th>Nome</th>
           <th>Email</th>
           <th>Data</th>
           <th>Orario</th>
           <th>Numero Ospiti</th>
-          <th>Azioni</th>
         </tr>
       </thead>
       <tbody>
@@ -43,6 +43,53 @@
     <div class="dacambiare">
       <p>Crea un altro account admin</p>
       <a routerLink="/register" class="nav-link px-2 text-yellow">Sign-up</a>
+    </div>
+
+    <div>
+      <button routerLink="/new-flavour" class="btn btn-success">
+        Crea nuovo gusto
+      </button>
+    </div>
+
+    <table class="table" *ngIf="flavours.length > 0">
+      <tr>
+        <th>#</th>
+        <th>nome</th>
+        <th>descrizione</th>
+        <th>tipo</th>
+      </tr>
+      <tr *ngFor="let flavour of flavours; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ flavour.name }}</td>
+        <td>{{ flavour.description }}</td>
+        <td>{{ flavour.type }}</td>
+        <td>
+          <button
+            *ngIf="flavour.id !== undefined"
+            (click)="deleteFlavour(flavour.id)"
+            class="btn btn-danger"
+          >
+            elimina
+          </button>
+          <button
+            [routerLink]="['/edit-flavour', flavour.id]"
+            class="btn btn-warning"
+          >
+            Modifica
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <div
+      *ngIf="flavours.length === 0 && !errorMessage"
+      class="alert alert-info"
+    >
+      Non ci sono gusti
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
     </div>
   </main>
 </div>
