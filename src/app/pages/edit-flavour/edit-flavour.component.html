@@ -2,37 +2,59 @@
   <main class="content">
     <div class="header_img"></div>
     <div class="edit-flavour-container">
-      <h2>Edit Flavour</h2>
+      <button routerLink="/dashboard" class="btn back">
+        <i class="bi bi-caret-left"></i> Indietro
+      </button>
 
-      <form (ngSubmit)="onSubmit()">
-        <label for="name">Nome:</label>
-        <input
-          id="name"
-          type="text"
-          [(ngModel)]="flavour.name"
-          name="name"
-          required
-        />
+      <div class="edit_container">
+        <h3>Modifica gusto</h3>
 
-        <label for="type">Tipo:</label>
-        <select id="type" [(ngModel)]="flavour.type" name="type">
-          <option value="CREMA">Crema</option>
-          <option value="FRUTTA">Frutta</option>
-        </select>
+        <form (ngSubmit)="onSubmit()">
+          <div>
+            <label for="name">Nome</label>
+            <input
+              id="name"
+              type="text"
+              [(ngModel)]="flavour.name"
+              name="name"
+              required
+            />
+          </div>
 
-        <label for="description">Descrizione:</label>
-        <textarea
-          id="description"
-          [(ngModel)]="flavour.description"
-          name="description"
-        ></textarea>
+          <div>
+            <label for="type">Tipo</label>
+            <select id="type" [(ngModel)]="flavour.type" name="type">
+              <option value="CREMA">Crema</option>
+              <option value="FRUTTA">Frutta</option>
+            </select>
+          </div>
 
-        <label for="image">Immagine:</label>
-        <input type="file" id="image" (change)="onImageChange($event)" />
+          <div>
+            <label for="description">Descrizione</label>
+            <textarea
+              id="description"
+              [(ngModel)]="flavour.description"
+              name="description"
+            ></textarea>
+          </div>
 
-        <button type="submit">Modifica gusto</button>
-        <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-      </form>
+          <div>
+            <label for="image" class="custom-file-upload"
+              >Carica un'immagine</label
+            >
+            <input
+              id="image"
+              type="file"
+              [(ngModel)]="flavour.imagePath"
+              name="image"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn">Modifica gusto</button>
+          <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+        </form>
+      </div>
     </div>
   </main>
 </div>

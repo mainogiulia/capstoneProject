@@ -1,4 +1,4 @@
 export interface iScoopQuantity {
-  flavourId: number;
+  flavour: { id: number; name: string };
   numberOfScoops: number;
 }

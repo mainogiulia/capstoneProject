@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { iFlavour } from '../interfaces/i-flavour';
 import { environment } from '../../environments/environment.development';
 
@@ -8,6 +8,9 @@ import { environment } from '../../environments/environment.development';
   providedIn: 'root',
 })
 export class GelatoService {
+  private imageSubject = new BehaviorSubject<string | null>(null);
+  currentImage$ = this.imageSubject.asObservable();
+
   flavourUrl: string = environment.flavourUrl; // URL DEL BACKEND
 
   constructor(private http: HttpClient) {}
@@ -51,6 +54,10 @@ export class GelatoService {
     return this.http.delete<void>(`${this.flavourUrl}/${id}`, {
       headers: this.getHeaders(),
     });
+  }
+
+  updateImage(image: string | null): void {
+    this.imageSubject.next(image);
   }
 
   //POSSO CARICARE UN'IMMAGINE

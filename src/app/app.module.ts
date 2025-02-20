@@ -34,7 +34,7 @@ import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
     EditFlavourComponent,
     NewFlavourComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [
     provideHttpClient(),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

@@ -3,6 +3,8 @@ import { iReservation } from '../../interfaces/i-reservation';
 import { ReservationService } from '../../services/reservation.service';
 import { iFlavour } from '../../interfaces/i-flavour';
 import { GelatoService } from '../../services/gelato.service';
+import { iGelatoOrder } from '../../interfaces/i-gelato-order';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,16 +14,27 @@ import { GelatoService } from '../../services/gelato.service';
 export class DashboardComponent implements OnInit {
   reservations: iReservation[] = [];
   flavours: iFlavour[] = [];
+  gelatoOrders: iGelatoOrder[] = [];
   errorMessage: string = '';
+  showDetailsForOrders: { [key: number]: boolean } = {}; // OGGETTO PER I DETTAGLI DEGLI ORDINI
+  selectedOrderId: number | null = null; // VARIABILE PER TENERE TRACCIA DELL'ORDINE SELEZIONATO
 
   constructor(
     private reservationSvc: ReservationService,
-    private gelatoSvc: GelatoService
+    private gelatoSvc: GelatoService,
+    private orderSvc: OrderService
   ) {}
 
   ngOnInit(): void {
     this.loadReservations();
     this.loadFlavours();
+    this.loadOrders();
+    this.orderSvc.getAllOrders().subscribe((orders: any[]) => {
+      this.gelatoOrders = orders;
+      this.gelatoOrders.forEach((order) => {
+        this.showDetailsForOrders[order.id] = false;
+      });
+    });
   }
 
   //PRENOTAZIONI
@@ -73,6 +86,28 @@ export class DashboardComponent implements OnInit {
           console.error("Errore nell'eliminazione del gusto:", error);
         },
       });
+    }
+  }
+
+  loadOrders(): void {
+    this.orderSvc.getAllOrders().subscribe((data) => {
+      this.gelatoOrders = data;
+    });
+  }
+
+  toggleDetails(orderId: number): void {
+    //SE L'ORDINE E' GIA' SELEZIONATO, LO DESELEZIONO E NASCONDO I DETTAGLI
+    if (this.selectedOrderId === orderId) {
+      this.selectedOrderId = null;
+      this.showDetailsForOrders[orderId] = false;
+    } else {
+      // NASCONDE I DETTAGLI DI TUTTI GLI ORDINI
+      this.gelatoOrders.forEach((order) => {
+        this.showDetailsForOrders[order.id] = false;
+      });
+
+      this.selectedOrderId = orderId;
+      this.showDetailsForOrders[orderId] = true;
     }
   }
 }

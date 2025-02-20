@@ -15,7 +15,7 @@ export class RegisterComponent {
 
   register() {
     this.authSvc.register(this.formData).subscribe((res) => {
-      this.router.navigate(['/auth/dashboard']);
+      this.router.navigate(['/auth/login']);
     });
   }
 }

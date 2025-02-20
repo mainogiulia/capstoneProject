@@ -4,5 +4,6 @@ export const environment = {
   reservationUrl: 'http://localhost:8080/api/reservation',
   quizUrl: 'http://localhost:8080/quiz',
   flavourUrl: 'http://localhost:8080/api/flavour',
-  paypalUrl: 'http://localhost:8080',
+  paypalUrl: 'http://localhost:8080/paypal',
+  orderUrl: 'http://localhost:8080/api/order',
 };

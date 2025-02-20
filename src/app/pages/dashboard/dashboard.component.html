@@ -1,11 +1,22 @@
 <div class="wrapper">
   <main class="content">
+    <div class="header_img">
+      <h1 class="text-center">gestione amministratore</h1>
+    </div>
     <div *ngIf="errorMessage" class="error-message">
       <p>{{ errorMessage }}</p>
     </div>
 
-    <h2>Lista Prenotazioni</h2>
-    <table *ngIf="reservations.length > 0">
+    <div class="reservation_account">
+      <h2>Lista Prenotazioni</h2>
+      <div class="signup">
+        <a routerLink="/register" class="nav-link"
+          >Crea un altro account admin</a
+        >
+      </div>
+    </div>
+
+    <table *ngIf="reservations.length > 0" class="reservation_table">
       <thead>
         <tr>
           <th>#</th>
@@ -21,42 +32,95 @@
           <td>{{ reservation.id }}</td>
           <td>{{ reservation.customerName }}</td>
           <td>{{ reservation.email }}</td>
-          <td>{{ reservation.reservationDate | date }}</td>
-          <td>{{ reservation.reservationTime }}</td>
+          <td>
+            {{ reservation.reservationDate | date : "d/MM/yyyy" }}
+          </td>
+          <td>{{ reservation.reservationTime.substring(0, 5) }}</td>
           <td>{{ reservation.numberOfGuests }}</td>
           <td>
             <button
               *ngIf="reservation.id"
               (click)="deleteReservation(reservation.id)"
+              class="btn"
             >
-              Elimina
+              <i class="bi bi-x-square"></i>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
 
-    <div *ngIf="reservations.length === 0">
-      <p>Nessuna prenotazione trovata.</p>
+    <div *ngIf="reservations.length === 0" class="no_reservation">
+      <p>Non ci sono prenotazioni.</p>
     </div>
 
-    <div class="dacambiare">
-      <p>Crea un altro account admin</p>
-      <a routerLink="/register" class="nav-link px-2 text-yellow">Sign-up</a>
-    </div>
+    <div class="order_title"><h2>Lista Ordini</h2></div>
+    <table class="order_table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cliente</th>
+          <th>Email</th>
+          <th>Indirizzo</th>
+          <th>Data</th>
+          <th>Totale</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let order of gelatoOrders"
+          [ngClass]="{ highlighted: order.id === selectedOrderId }"
+        >
+          <td>{{ order.id }}</td>
+          <td>{{ order.costumerName }}</td>
+          <td>{{ order.email }}</td>
+          <td>{{ order.deliveryAddress }}</td>
+          <td>{{ order.orderDate | date : "d/MM/yyyy" }}</td>
+          <td>€ {{ order.totalPrice }}.<sub>00</sub></td>
+          <td>
+            <button (click)="toggleDetails(order.id)" class="btn">
+              {{ showDetailsForOrders[order.id] ? "Nascondi" : "Dettagli" }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    <div>
-      <button routerLink="/new-flavour" class="btn btn-success">
-        Crea nuovo gusto
+    <ng-container *ngFor="let order of gelatoOrders">
+      <div *ngIf="showDetailsForOrders[order.id]">
+        <div class="detail_div">
+          <h3>Dettagli ordine {{ order.id }}</h3>
+
+          <div *ngFor="let detail of order.details" class="detail">
+            <p>N° palline: {{ detail.totalScoops }}</p>
+            <div>
+              <p>Gusti:</p>
+              <ul>
+                <li *ngFor="let scoop of detail.scoopQuantities">
+                  {{ scoop.numberOfScoops }} pallina/e di
+                  {{ scoop.flavour.name }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="gusti">
+      <h2>Lista Gusti</h2>
+
+      <button routerLink="/new-flavour" class="btn">
+        <i class="bi bi-plus-lg"></i> Nuovo gusto
       </button>
     </div>
-
-    <table class="table" *ngIf="flavours.length > 0">
+    <table class="flavours_table" *ngIf="flavours.length > 0">
       <tr>
         <th>#</th>
-        <th>nome</th>
-        <th>descrizione</th>
-        <th>tipo</th>
+        <th>Nome</th>
+        <th>Descrizione</th>
+        <th>Tipo</th>
       </tr>
       <tr *ngFor="let flavour of flavours; let i = index">
         <td>{{ i + 1 }}</td>
@@ -64,18 +128,15 @@
         <td>{{ flavour.description }}</td>
         <td>{{ flavour.type }}</td>
         <td>
+          <button [routerLink]="['/edit-flavour', flavour.id]" class="btn">
+            <i class="bi bi-pencil"></i>
+          </button>
           <button
             *ngIf="flavour.id !== undefined"
             (click)="deleteFlavour(flavour.id)"
-            class="btn btn-danger"
+            class="btn"
           >
-            elimina
-          </button>
-          <button
-            [routerLink]="['/edit-flavour', flavour.id]"
-            class="btn btn-warning"
-          >
-            Modifica
+            <i class="bi bi-x-square"></i>
           </button>
         </td>
       </tr>

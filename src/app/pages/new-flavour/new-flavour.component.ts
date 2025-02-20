@@ -18,14 +18,24 @@ export class NewFlavourComponent {
 
   errorMessage: string = '';
   selectedFile: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null;
 
   constructor(private gelatoSvc: GelatoService, private router: Router) {}
 
   //GESTISCO LA SELEZIONE DI UN FILE TRAMITE IL CAMPO INPUT FILE
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.selectedFile = input.files[0];
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      // Usa FileReader per leggere e mostrare l'anteprima dell'immagine
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+        // Aggiorna l'immagine nel servizio
+        this.gelatoSvc.updateImage(this.imagePreview as string);
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -71,6 +81,24 @@ export class NewFlavourComponent {
       error: (error) => {
         this.errorMessage = 'Errore nella creazione del gusto.';
         console.error(error);
+      },
+    });
+  }
+
+  // Metodo per caricare l'immagine al backend
+  uploadImage(): void {
+    if (!this.selectedFile) {
+      console.error('Nessun file selezionato!');
+      return;
+    }
+
+    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
+      next: (imageUrl) => {
+        console.log('Immagine caricata con successo:', imageUrl);
+        alert('Immagine caricata con successo!');
+      },
+      error: (error) => {
+        console.error("Errore durante l'upload dell'immagine:", error);
       },
     });
   }

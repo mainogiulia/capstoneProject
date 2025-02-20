@@ -50,6 +50,68 @@
                 <h5>Subtotale</h5>
                 <p>€{{ cart.length * 2 }},00</p>
               </div>
+
+              <!-- Form per i dati cliente -->
+              <form [formGroup]="orderForm" class="mt-3">
+                <h5>Dati per la consegna</h5>
+                <div class="mb-2">
+                  <label for="name" class="form-label">Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    formControlName="name"
+                  />
+                  <div
+                    *ngIf="
+                      orderForm.get('name')?.invalid &&
+                      orderForm.get('name')?.touched
+                    "
+                    class="text-danger small"
+                  >
+                    Nome richiesto
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    formControlName="email"
+                  />
+                  <div
+                    *ngIf="
+                      orderForm.get('email')?.invalid &&
+                      orderForm.get('email')?.touched
+                    "
+                    class="text-danger small"
+                  >
+                    Email valida richiesta
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <label for="address" class="form-label"
+                    >Indirizzo di consegna</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="address"
+                    formControlName="address"
+                  />
+                  <div
+                    *ngIf="
+                      orderForm.get('address')?.invalid &&
+                      orderForm.get('address')?.touched
+                    "
+                    class="text-danger small"
+                  >
+                    Indirizzo richiesto
+                  </div>
+                </div>
+              </form>
+
               <div class="off-btn">
                 <button class="btn pay-btn" (click)="createOrder()">
                   <img
@@ -74,9 +136,28 @@
           <div class="card">
             <div class="card_img">
               <img
+                *ngIf="
+                  flavour.imagePath && flavour.imagePath.startsWith('flavours/')
+                "
                 [src]="'http://localhost:8080/' + flavour.imagePath"
                 alt="{{ flavour.name }}"
               />
+              <img
+                *ngIf="
+                  flavour.imagePath &&
+                  !flavour.imagePath.startsWith('flavours/')
+                "
+                [src]="flavour.imagePath"
+                alt="{{ flavour.name }}"
+              />
+              <div *ngIf="imagePreview">
+                <h3>Immagine Selezionata</h3>
+                <img
+                  [src]="imagePreview"
+                  alt="Immagine selezionata"
+                  style="max-width: 300px"
+                />
+              </div>
             </div>
 
             <div class="card-body">
