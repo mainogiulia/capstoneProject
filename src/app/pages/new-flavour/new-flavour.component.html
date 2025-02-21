@@ -42,11 +42,18 @@
               >Carica un'immagine</label
             >
             <input
+              id="image"
               type="file"
               (change)="onFileChange($event)"
               accept="image/*"
-              required
+              #fileInput
             />
+            <div *ngIf="!selectedFile" class="file-status">
+              Nessun file selezionato
+            </div>
+            <div *ngIf="selectedFile" class="file-status">
+              File selezionato: {{ selectedFile.name }}
+            </div>
             <img
               *ngIf="imagePreview"
               [src]="imagePreview"

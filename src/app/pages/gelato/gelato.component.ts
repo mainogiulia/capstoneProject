@@ -34,6 +34,7 @@ export class GelatoComponent implements OnInit {
 
   ngOnInit(): void {
     this.gelatoSvc.getFlavours().subscribe((data) => {
+      data.forEach((f) => console.log(`${f.name}: ${f.imagePath}`));
       this.flavours = data;
       this.creamFlavours = this.flavours.filter((f) => f.type === 'CREMA');
       this.fruitFlavours = this.flavours.filter((f) => f.type === 'FRUTTA');

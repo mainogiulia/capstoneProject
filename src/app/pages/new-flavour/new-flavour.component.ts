@@ -25,24 +25,37 @@ export class NewFlavourComponent {
   //GESTISCO LA SELEZIONE DI UN FILE TRAMITE IL CAMPO INPUT FILE
   onFileChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+    console.log('File input change:', input.files);
 
-      // Usa FileReader per leggere e mostrare l'anteprima dell'immagine
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      console.log(
+        'File selezionato:',
+        this.selectedFile.name,
+        this.selectedFile.size
+      );
+
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result;
-        // Aggiorna l'immagine nel servizio
-        this.gelatoSvc.updateImage(this.imagePreview as string);
+        console.log('Anteprima generata');
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.selectedFile);
+    } else {
+      console.log('Nessun file selezionato o operazione annullata');
     }
   }
 
   onImageUpload(file: File) {
-    this.gelatoSvc.uploadImage(file).subscribe({
+    if (!this.selectedFile) {
+      console.error('Nessun file selezionato!');
+      return;
+    }
+    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
       next: (imagePath: string) => {
-        this.newFlavour.imagePath = imagePath; // Salva il percorso dell'immagine caricato
+        console.log('Immagine caricata, percorso restituito:', imagePath);
+        this.newFlavour.imagePath = imagePath;
+        this.createFlavour();
       },
       error: (error) => {
         console.error("Errore nel caricamento dell'immagine", error);
@@ -51,6 +64,8 @@ export class NewFlavourComponent {
   }
 
   onSubmit(): void {
+    console.log('Form inviato', this.newFlavour);
+
     if (!this.newFlavour.name || !this.newFlavour.type) {
       this.errorMessage = 'Nome e tipo sono obbligatori!';
       return;
@@ -58,19 +73,27 @@ export class NewFlavourComponent {
 
     // SE E' STATO SELEZIONATO UN FILE, CARICALO PRIMA DI INVIARE IL GUSTO
     if (this.selectedFile) {
-      this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
-        next: (imageUrl) => {
-          this.newFlavour.imagePath = imageUrl;
-          this.createFlavour();
-        },
-        error: (error) => {
-          this.errorMessage = "Errore nell'upload dell'immagine.";
-          console.error(error);
-        },
-      });
+      this.uploadImageAndCreateFlavour();
     } else {
+      console.log('Nessuna immagine, creo direttamente il gusto');
       this.createFlavour();
     }
+  }
+
+  private uploadImageAndCreateFlavour(): void {
+    if (!this.selectedFile) return;
+
+    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
+      next: (imagePath: string) => {
+        console.log('Immagine caricata, percorso restituito:', imagePath);
+        this.newFlavour.imagePath = imagePath;
+        this.createFlavour();
+      },
+      error: (error) => {
+        this.errorMessage = "Errore nell'upload dell'immagine.";
+        console.error("Errore nel caricamento dell'immagine", error);
+      },
+    });
   }
 
   private createFlavour(): void {
@@ -81,24 +104,6 @@ export class NewFlavourComponent {
       error: (error) => {
         this.errorMessage = 'Errore nella creazione del gusto.';
         console.error(error);
-      },
-    });
-  }
-
-  // Metodo per caricare l'immagine al backend
-  uploadImage(): void {
-    if (!this.selectedFile) {
-      console.error('Nessun file selezionato!');
-      return;
-    }
-
-    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
-      next: (imageUrl) => {
-        console.log('Immagine caricata con successo:', imageUrl);
-        alert('Immagine caricata con successo!');
-      },
-      error: (error) => {
-        console.error("Errore durante l'upload dell'immagine:", error);
       },
     });
   }
