@@ -2,7 +2,6 @@
 .wrapper {
   min-height: 84vh;
   background-color: black;
-  color: white;
 }
 
 .content {
@@ -10,3 +9,20 @@
 }
 
 //
+
+.alert_container {
+  padding-top: 8rem;
+}
+
+button {
+  margin-top: 10px;
+  color: rgb(255, 154, 22);
+  border: 1px solid rgb(255, 154, 22);
+  border-radius: 5px;
+
+  &:hover {
+    background-color: rgb(255, 154, 22);
+    color: black;
+    border: 1px solid black;
+  }
+}

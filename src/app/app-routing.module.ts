@@ -6,7 +6,6 @@ import { QuizComponent } from './pages/quiz/quiz.component';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { GuestGuard } from './auth/guards/guest.guard';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
-import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 import { GelatoComponent } from './pages/gelato/gelato.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
@@ -39,7 +38,6 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
   },
   { path: 'success', component: PaymentSuccessComponent },
-  { path: 'cancel', component: PaymentCancelComponent },
   {
     path: 'new-flavour',
     component: NewFlavourComponent,

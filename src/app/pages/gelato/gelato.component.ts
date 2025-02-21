@@ -15,22 +15,22 @@ export class GelatoComponent implements OnInit {
   cart: iFlavour[] = [];
   creamFlavours: iFlavour[] = [];
   fruitFlavours: iFlavour[] = [];
-  paymentStatus: string = ''; ////////////////////////////////////////////////
+  paymentStatus: string = '';
   imagePreview: string | null = null;
-  orderId: string = ''; ///////////////////////////////////////////
-  orderForm!: FormGroup; /////////////////////////////////
+  orderId: string = '';
+  orderForm!: FormGroup;
 
   constructor(
     private gelatoSvc: GelatoService,
     private payPalSvc: PayPalService,
-    private fb: FormBuilder //////////////////////////////////////
+    private fb: FormBuilder
   ) {
     this.orderForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      address: ['', Validators.required],
+      date: ['null', Validators.required],
     });
-  } ///////////////////////////////////////////////////
+  }
 
   ngOnInit(): void {
     this.gelatoSvc.getFlavours().subscribe((data) => {
@@ -43,17 +43,17 @@ export class GelatoComponent implements OnInit {
       this.cart = JSON.parse(savedCart);
     }
 
-    const savedFormData = sessionStorage.getItem('orderFormData'); ///////////////////////////////////////
+    const savedFormData = sessionStorage.getItem('orderFormData');
     if (savedFormData) {
       this.orderForm.setValue(JSON.parse(savedFormData));
-    } ///////////////////////////////////////////////////////////////
+    }
 
     this.gelatoSvc.currentImage$.subscribe((image) => {
-      this.imagePreview = image; // Aggiorniamo l'immagine nel componente
+      this.imagePreview = image;
     });
   }
 
-  // Salva i dati del form nel sessionStorage quando cambiano////////////////////////////////////////////////
+  // SALVA I DATI DEL FORM NEL SESSION STORAGE QUANDO CAMBIANO
   saveFormData(): void {
     if (this.orderForm.valid) {
       sessionStorage.setItem(
@@ -89,38 +89,19 @@ export class GelatoComponent implements OnInit {
   }
 
   // CREO L'ORDINE PAYPAL
-  // createOrder(): void {
-  //   const totalScoops = this.cart.length; // CONTA IL NUMERO DI PALLINE NEL CARRELLO
-
-  //   this.payPalSvc.createOrder(totalScoops).subscribe({
-  //     next: (response) => {
-  //       const approvalUrl = response.approvalUrl;
-  //       window.location.href = approvalUrl; // REINDIRIZZA L'UTENTE ALLA RISPOSTA DI PAYPAL
-  //     },
-  //     error: (error) => {
-  //       console.error("Errore durante la creazione dell'ordine PayPal:", error);
-  //       alert(`Si è verificato un errore: ${error.message}`);
-  //     },
-  //     complete: () => {
-  //       console.log('Creazione ordine PayPal completata');
-  //     },
-  //   });
-  // }
-
   createOrder(): void {
-    // Verifica se il form è valido
+    // VERIFICA SE IL FORM E' VALIDO
     if (this.orderForm.invalid) {
       alert('Per favore, compila tutti i campi richiesti');
       return;
     }
     const totalScoops = this.cart.length;
 
-    // Prepara i dati dell'ordine
+    // PREPARA I DATI DELL'ORDINE
     const orderData = {
       costumerName: this.orderForm.get('name')?.value,
       email: this.orderForm.get('email')?.value,
       orderDate: new Date(),
-      deliveryAddress: this.orderForm.get('address')?.value,
       details: [
         {
           totalScoops: totalScoops,
@@ -132,7 +113,7 @@ export class GelatoComponent implements OnInit {
       ],
     };
 
-    // Salva i dati dell'ordine in sessionStorage per recuperarli dopo il pagamento
+    // SALVA I DATI DELL'ORDINE NEL SESSION STORAGE
     sessionStorage.setItem('pendingOrderData', JSON.stringify(orderData));
 
     this.payPalSvc.createOrder(totalScoops, orderData).subscribe({
@@ -149,38 +130,8 @@ export class GelatoComponent implements OnInit {
   }
 
   // CATTURO IL PAGAMENTO DOPO CHE L'UTENTE HA APROVATO SU PAYPAL
-  // capturePayPalOrder(token: string): void {
-  //   this.payPalSvc.captureOrder(token).subscribe({
-  //     next: (response) => {
-  //       if (response.status === 'success') {
-  //         alert(
-  //           'Pagamento completato con successo! ID transazione: ' +
-  //             response.transactionId
-  //         );
-  //       } else {
-  //         alert('Errore nel pagamento: ' + response.message);
-  //       }
-  //     },
-  //     error: (error) => {
-  //       console.error('Errore durante la cattura del pagamento:', error);
-  //       // Qui puoi esplorare l'errore in dettaglio
-  //       if (error.error && error.error.details) {
-  //         console.error('Dettagli errore:', error.error.details);
-  //       }
-  //       this.paymentStatus = 'error';
-  //       alert(
-  //         'Si è verificato un errore nel completamento del pagamento: ' +
-  //           error.message
-  //       );
-  //     },
-  //     complete: () => {
-  //       console.log('Cattura pagamento completata');
-  //     },
-  //   });
-  // }
-
   capturePayPalOrder(token: string): void {
-    // Recupera l'ID dell'ordine dal sessionStorage
+    // RECUPERA L'ID DELL'ORDINE DAL SESSION STORAGE
     const orderId = sessionStorage.getItem('currentOrderId');
 
     if (!orderId) {
@@ -195,13 +146,12 @@ export class GelatoComponent implements OnInit {
             'Pagamento completato con successo! ID transazione: ' +
               response.transactionId
           );
-          this.clearCart(); // Svuota il carrello dopo il pagamento riuscito
-          sessionStorage.removeItem('currentOrderId'); // Rimuovi l'ID dell'ordine
+          this.clearCart();
+          sessionStorage.removeItem('currentOrderId');
         } else {
           alert('Errore nel pagamento: ' + response.message);
         }
       },
-      // ... resto del codice di gestione errori ...
     });
   }
 }

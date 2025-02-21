@@ -13,7 +13,6 @@ import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GelatoComponent } from './pages/gelato/gelato.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
-import { PaymentCancelComponent } from './pages/payment-cancel/payment-cancel.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { EditFlavourComponent } from './pages/edit-flavour/edit-flavour.component';
 import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
@@ -30,7 +29,6 @@ import { NewFlavourComponent } from './pages/new-flavour/new-flavour.component';
     RegisterComponent,
     GelatoComponent,
     PaymentSuccessComponent,
-    PaymentCancelComponent,
     EditFlavourComponent,
     NewFlavourComponent,
   ],

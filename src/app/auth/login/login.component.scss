@@ -17,31 +17,44 @@
   color: rgb(255, 154, 22);
 }
 
-form {
-  input {
-    background-color: black;
+.container {
+  width: 30%;
+  border: 3px solid rgb(255, 154, 22);
+  padding: 3rem;
+  border-radius: 5%;
+  form {
+    input {
+      background-color: black;
+      border: none;
+      border-bottom: 1px solid white;
+      outline: none;
+      color: white;
+    }
+    label {
+      padding-top: 2rem;
+    }
+  }
+
+  input:focus {
+    box-shadow: none;
+  }
+
+  .visibleBtn {
     border: none;
     border-bottom: 1px solid white;
-    outline: none;
-    color: white;
+    color: rgb(255, 154, 22);
   }
-  label {
-    padding-top: 2rem;
+
+  .loginBtn {
+    margin-top: 2rem;
+    background-color: black;
+    color: rgb(255, 154, 22);
+    border: 1px solid rgb(255, 154, 22);
+    border-radius: 5px;
+    &:hover {
+      background-color: rgb(255, 154, 22);
+      color: black;
+      border: 1px solid black;
+    }
   }
-}
-
-input:focus {
-  box-shadow: none;
-}
-
-.visibleBtn {
-  border: none;
-  border-bottom: 1px solid white;
-  color: rgb(255, 154, 22);
-}
-
-.loginBtn {
-  background-color: rgb(255, 154, 22);
-  margin-top: 2rem;
-  border: none;
 }

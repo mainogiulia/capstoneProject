@@ -57,9 +57,7 @@
       color: white;
       width: 140px;
     }
-    #customerName {
-      text-transform: capitalize;
-    }
+
     select {
       background-color: black;
       color: white;
@@ -70,7 +68,9 @@
     }
     #description {
       width: 300px;
-      border: 3px solid rgb(255, 154, 22);
+      background-color: black;
+      color: white;
+      border: 1px solid rgb(255, 154, 22);
     }
     input[type="file"] {
       display: none;

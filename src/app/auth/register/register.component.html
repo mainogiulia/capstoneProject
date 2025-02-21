@@ -1,33 +1,41 @@
 <div class="wrapper">
   <main class="content">
+    <button routerLink="/dashboard" class="btn back">
+      <i class="bi bi-caret-left"></i> Indietro
+    </button>
     <div class="container">
-      <div>
-        <button routerLink="/dashboard">indietro</button>
-      </div>
       <h1>Aggiungi un Admin</h1>
       <form>
-        <input
-          type="text"
-          class="form-control mb-3"
-          placeholder="Nome"
-          name="nome"
-          [(ngModel)]="formData.username"
-        />
-        <input
-          type="email"
-          class="form-control mb-3"
-          placeholder="Email"
-          name="email"
-          [(ngModel)]="formData.email"
-        />
-        <input
-          type="password"
-          class="form-control mb-3"
-          placeholder="Password"
-          name="password"
-          [(ngModel)]="formData.password"
-        />
-        <button (click)="register()" class="btn btn-success">Registra</button>
+        <div>
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control mb-3"
+            name="nome"
+            [(ngModel)]="formData.username"
+          />
+        </div>
+
+        <div>
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control mb-3"
+            name="email"
+            [(ngModel)]="formData.email"
+          />
+        </div>
+
+        <div>
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control mb-3"
+            name="password"
+            [(ngModel)]="formData.password"
+          />
+        </div>
+        <button (click)="register()" class="btn registerBtn">Registra</button>
       </form>
     </div>
   </main>

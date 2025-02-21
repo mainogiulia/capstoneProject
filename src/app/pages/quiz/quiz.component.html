@@ -3,22 +3,34 @@
     <div class="header_img">
       <h1 class="text-center">scopri il tuo cocktail</h1>
     </div>
-    <div *ngIf="question" class="quiz-container">
-      <h2 class="text-center">{{ question.text }}</h2>
-      <ul
-        class="list-unstyled d-flex flex-wrap justify-content-center gap-3 mt-3"
-      >
-        <li *ngFor="let answer of question.answers">
-          <button class="btn btn-primary" (click)="selectAnswer(answer)">
-            {{ answer.text }}
-          </button>
-        </li>
-      </ul>
+    <div class="quiz_description">
+      <h3>Non sai cosa bere stasera? Prova il nostro quiz!</h3>
+      <h5>
+        Ti guideremo attraverso una serie di domande per scoprire quale tra i
+        nostri cocktail rispecchia al meglio i tuoi gusti per la serata.
+      </h5>
     </div>
-
-    <div *ngIf="drink" class="result-container">
-      <h2>Il tuo drink personalizzato è: {{ drink.name }}</h2>
-      <p>{{ drink.description }}</p>
+    <div class="container">
+      <div class="quiz-container">
+        <div class="glass-effect">
+          <div *ngIf="question" class="quiz">
+            <h1 class="text-center">{{ question.text }}</h1>
+            <div class="d-flex flex-wrap gap-5 answers_container">
+              <div *ngFor="let answer of question.answers">
+                <button class="btn" (click)="selectAnswer(answer)">
+                  {{ answer.text }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="drink" class="result-container">
+            <h3>Il tuo cocktail per stasera è:</h3>
+            <h1>
+              {{ drink.name }}
+            </h1>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 </div>

@@ -3,6 +3,7 @@
   min-height: 84vh;
   background-color: black;
   color: white;
+  font-family: "Poiret One", serif;
 }
 
 .content {
@@ -16,4 +17,79 @@
   background-image: url("/sfondo_new.png");
   background-size: cover;
   background-position: center -70px;
+}
+
+.back,
+.btn {
+  margin-top: 10px;
+  background-color: black;
+  color: rgb(255, 154, 22);
+  border: 1px solid rgb(255, 154, 22);
+  border-radius: 5px;
+  margin-left: 1rem;
+  &:hover {
+    background-color: rgb(255, 154, 22);
+    color: black;
+    border: 1px solid black;
+  }
+}
+
+.create_container {
+  padding-inline: 4rem;
+  h3 {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 2rem;
+  }
+  form {
+    display: flex;
+    align-items: end;
+    justify-content: space-evenly;
+    label {
+      display: block;
+      padding-bottom: 1rem;
+    }
+    input {
+      background-color: black;
+      border: none;
+      border-bottom: 1px solid white;
+      outline: none;
+      color: white;
+      width: 140px;
+    }
+
+    select {
+      background-color: black;
+      color: white;
+      border: none;
+      border-bottom: 1px solid white;
+      appearance: none;
+      width: 140px;
+    }
+    #description {
+      width: 300px;
+      background-color: black;
+      color: white;
+      border: 1px solid rgb(255, 154, 22);
+    }
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Stile personalizzato del bottone */
+    .custom-file-upload {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: rgb(255, 154, 22);
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+      background-color: rgb(161, 100, 20);
+    }
+  }
 }

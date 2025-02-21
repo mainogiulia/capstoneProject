@@ -1,8 +1,8 @@
 <div class="wrapper">
   <main class="content">
-    <div class="container mt-5 py-5">
+    <div class="container py-5">
       <div class="row justify-content-center">
-        <div class="col-md-8 text-center">
+        <div class="col-md-8 text-center alert_container">
           <div *ngIf="processing" class="my-5">
             <div class="spinner-border text-primary" role="status">
               <span class="visually-hidden"
@@ -24,7 +24,7 @@
               <p class="mb-4">
                 Abbiamo inviato una email di conferma a {{ customerEmail }}
               </p>
-              <p>I tuoi gusti:</p>
+              <p>Nel tuo ordine:</p>
               <ul class="list-group mb-4">
                 <li
                   class="list-group-item"
@@ -33,13 +33,11 @@
                   {{ flavour.name }}
                 </li>
               </ul>
-              <button class="btn btn-primary btn-lg" routerLink="/">
-                Torna alla Home
-              </button>
+              <button class="btn" routerLink="/">Torna alla Home</button>
             </div>
           </div>
 
-          <div *ngIf="error" class="card border-danger my-5">
+          <div *ngIf="error" class="card border-danger my-5 payment_error">
             <div class="card-header bg-danger text-white">
               <h2 class="mb-0">
                 <i class="bi bi-exclamation-triangle me-2"></i>Errore nel
@@ -48,9 +46,7 @@
             </div>
             <div class="card-body">
               <p class="mb-4">{{ errorMessage }}</p>
-              <button class="btn btn-primary btn-lg" routerLink="/">
-                Torna alla Home
-              </button>
+              <button class="btn" routerLink="/">Torna alla Home</button>
             </div>
           </div>
         </div>

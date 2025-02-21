@@ -5,7 +5,6 @@ export interface iGelatoOrder {
   details: iGelatoOrderDetail[];
   totalPrice: number;
   orderDate: string;
-  deliveryAddress: string;
   costumerName: string;
   email: string;
 }

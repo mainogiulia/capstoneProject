@@ -6,15 +6,17 @@
     <div class="container">
       <div>
         <div *ngIf="cart.length > 0">
-          <button
-            class="btn cartBtn"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight"
-            aria-controls="offcanvasRight"
-          >
-            Visualizza carrello ({{ cart.length }})
-          </button>
+          <div class="cart_visible">
+            <button
+              class="btn cartBtn"
+              type="button"
+              data-bs-toggle="offcanvas"
+              data-bs-target="#offcanvasRight"
+              aria-controls="offcanvasRight"
+            >
+              Visualizza carrello ({{ cart.length }})
+            </button>
+          </div>
 
           <div
             class="offcanvas offcanvas-end px-4 pb-3"
@@ -91,23 +93,23 @@
                   </div>
                 </div>
                 <div class="mb-2">
-                  <label for="address" class="form-label"
-                    >Indirizzo di consegna</label
+                  <label for="datetime" class="form-label"
+                    >Data e ora ritiro</label
                   >
                   <input
-                    type="text"
+                    type="datetime-local"
                     class="form-control"
-                    id="address"
-                    formControlName="address"
+                    id="datetime"
+                    formControlName="datetime"
                   />
                   <div
                     *ngIf="
-                      orderForm.get('address')?.invalid &&
-                      orderForm.get('address')?.touched
+                      orderForm.get('date')?.invalid &&
+                      orderForm.get('date')?.touched
                     "
                     class="text-danger small"
                   >
-                    Indirizzo richiesto
+                    Data ritiro richiesta
                   </div>
                 </div>
               </form>
@@ -133,7 +135,7 @@
       <h2>Crema</h2>
       <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
         <div class="col-md-4" *ngFor="let flavour of creamFlavours">
-          <div class="card">
+          <div class="card card_wrapper">
             <div class="card_img">
               <img
                 *ngIf="
@@ -177,7 +179,10 @@
 
       <h2>Frutta</h2>
       <div class="row row-cols-1 row-cols-md-2 pb-4 g-4">
-        <div class="col-md-4" *ngFor="let flavour of fruitFlavours">
+        <div
+          class="col-md-4 card_wrapper"
+          *ngFor="let flavour of fruitFlavours"
+        >
           <div class="card">
             <div class="card_img">
               <img

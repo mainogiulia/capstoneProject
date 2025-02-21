@@ -61,8 +61,8 @@
           <th>#</th>
           <th>Cliente</th>
           <th>Email</th>
-          <th>Indirizzo</th>
-          <th>Data</th>
+          <th>Data ritiro</th>
+          <th>Orario ritiro</th>
           <th>Totale</th>
           <th></th>
         </tr>
@@ -75,8 +75,8 @@
           <td>{{ order.id }}</td>
           <td>{{ order.costumerName }}</td>
           <td>{{ order.email }}</td>
-          <td>{{ order.deliveryAddress }}</td>
           <td>{{ order.orderDate | date : "d/MM/yyyy" }}</td>
+          <td>{{ order.orderDate | date : "HH:mm" }}</td>
           <td>€ {{ order.totalPrice }}.<sub>00</sub></td>
           <td>
             <button (click)="toggleDetails(order.id)" class="btn">

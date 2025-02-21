@@ -1,44 +1,64 @@
 <div class="wrapper">
   <main class="content">
     <div class="header_img"></div>
-    <div>
-      <button routerLink="/dashboard">indietro</button>
+    <div class="new-flavour-container">
+      <button routerLink="/dashboard" class="btn back">
+        <i class="bi bi-caret-left"></i> Indietro
+      </button>
+      <div class="create_container">
+        <h3>Crea un nuovo gusto</h3>
+
+        <form (ngSubmit)="onSubmit()">
+          <div>
+            <label for="name">Nome:</label>
+            <input
+              id="name"
+              type="text"
+              [(ngModel)]="newFlavour.name"
+              name="name"
+              required
+            />
+          </div>
+
+          <div>
+            <label for="type">Tipo:</label>
+            <select id="type" [(ngModel)]="newFlavour.type" name="type">
+              <option value="CREMA">Crema</option>
+              <option value="FRUTTA">Frutta</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="description">Descrizione:</label>
+            <textarea
+              id="description"
+              [(ngModel)]="newFlavour.description"
+              name="description"
+            ></textarea>
+          </div>
+
+          <div>
+            <label for="image" class="custom-file-upload"
+              >Carica un'immagine</label
+            >
+            <input
+              type="file"
+              (change)="onFileChange($event)"
+              accept="image/*"
+              required
+            />
+            <img
+              *ngIf="imagePreview"
+              [src]="imagePreview"
+              alt="Anteprima immagine"
+              style="max-width: 300px; margin-top: 10px"
+            />
+          </div>
+
+          <button type="submit" class="btn">Create Flavour</button>
+          <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+        </form>
+      </div>
     </div>
-    <form (ngSubmit)="onSubmit()">
-      <label for="name">Nome:</label>
-      <input
-        id="name"
-        type="text"
-        [(ngModel)]="newFlavour.name"
-        name="name"
-        required
-      />
-
-      <label for="type">Tipo:</label>
-      <select id="type" [(ngModel)]="newFlavour.type" name="type">
-        <option value="CREMA">Crema</option>
-        <option value="FRUTTA">Frutta</option>
-      </select>
-
-      <label for="description">Descrizione:</label>
-      <textarea
-        id="description"
-        [(ngModel)]="newFlavour.description"
-        name="description"
-      ></textarea>
-
-      <input type="file" (change)="onFileChange($event)" accept="image/*" />
-
-      <!-- Mostra l'anteprima dell'immagine selezionata -->
-      <img
-        *ngIf="imagePreview"
-        [src]="imagePreview"
-        alt="Anteprima immagine"
-        style="max-width: 300px; margin-top: 10px"
-      />
-
-      <button type="submit">Create Flavour</button>
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    </form>
   </main>
 </div>
