@@ -3,17 +3,75 @@
     <div class="header_img">
       <h1 class="text-center">gestione amministratore</h1>
     </div>
-    <div *ngIf="errorMessage" class="error-message">
+
+    <div class="toast-container">
+      <div
+        *ngIf="successMessage"
+        class="toast toast-success"
+        [class.toast-fade-out]="isSuccessFading"
+      >
+        <div class="toast-icon">✓</div>
+        <div class="toast-message">{{ successMessage }}</div>
+        <button class="toast-close" (click)="clearSuccessMessage()">×</button>
+      </div>
+
+      <div
+        *ngIf="errorToastMessage"
+        class="toast toast-error"
+        [class.toast-fade-out]="isErrorToastFading"
+      >
+        <div class="toast-icon">✗</div>
+        <div class="toast-message">{{ errorToastMessage }}</div>
+        <button class="toast-close" (click)="clearErrorToastMessage()">
+          ×
+        </button>
+      </div>
+
+      <div
+        *ngIf="notificationMessage"
+        class="toast toast-dark"
+        [class.toast-fade-out]="isNotificationFading"
+      >
+        <div class="toast-icon">ℹ️</div>
+        <div class="toast-message">{{ notificationMessage }}</div>
+        <button class="toast-close" (click)="clearNotificationMessage()">
+          ×
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="center-alert error-message">
       <p>{{ errorMessage }}</p>
+      <button class="toast-close" (click)="clearErrorMessage()">×</button>
+    </div>
+
+    <div
+      *ngIf="showConfirmDialog"
+      class="confirm-dialog-backdrop"
+      (click)="onBackdropClick($event)"
+    >
+      <div class="confirm-dialog">
+        <div class="confirm-dialog-title">Conferma</div>
+        <div class="confirm-dialog-message">{{ confirmMessage }}</div>
+        <div class="confirm-dialog-buttons">
+          <button
+            class="confirm-dialog-button confirm-button-cancel"
+            (click)="onCancelConfirm()"
+          >
+            Annulla
+          </button>
+          <button
+            class="confirm-dialog-button confirm-button-confirm"
+            (click)="onConfirm()"
+          >
+            Conferma
+          </button>
+        </div>
+      </div>
     </div>
 
     <div class="reservation_account">
       <h2>Lista Prenotazioni</h2>
-      <div class="signup">
-        <a routerLink="/register" class="nav-link"
-          >Crea un altro account admin</a
-        >
-      </div>
     </div>
 
     <table *ngIf="reservations.length > 0" class="reservation_table">
@@ -63,7 +121,7 @@
           <th>Email</th>
           <th>Data ritiro</th>
           <th>Orario ritiro</th>
-          <th>Totale</th>
+          <th class="totalRow">Totale</th>
           <th></th>
         </tr>
       </thead>
@@ -77,36 +135,38 @@
           <td>{{ order.email }}</td>
           <td>{{ order.orderDate | date : "d/MM/yyyy" }}</td>
           <td>{{ order.orderDate | date : "HH:mm" }}</td>
-          <td>€ {{ order.totalPrice }}.<sub>00</sub></td>
+          <td class="totalRow">€ {{ order.totalPrice }}.<sub>00</sub></td>
           <td>
-            <button (click)="toggleDetails(order.id)" class="btn">
-              {{ showDetailsForOrders[order.id] ? "Nascondi" : "Dettagli" }}
-            </button>
+            <div class="dropdown">
+              <button
+                class="btn dropdown-toggle dropdownBtn"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dettagli
+              </button>
+              <div class="dropdown-menu dropdown-menu-dark">
+                <div class="detail_div">
+                  <div *ngFor="let detail of order.details" class="detail">
+                    <p>N° palline: {{ detail.totalScoops }}</p>
+                    <div>
+                      <p>Gusti:</p>
+                      <ul>
+                        <li *ngFor="let scoop of detail.scoopQuantities">
+                          {{ scoop.numberOfScoops }} x
+                          {{ scoop.flavour.name }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
-
-    <ng-container *ngFor="let order of gelatoOrders">
-      <div *ngIf="showDetailsForOrders[order.id]">
-        <div class="detail_div">
-          <h3>Dettagli ordine {{ order.id }}</h3>
-
-          <div *ngFor="let detail of order.details" class="detail">
-            <p>N° palline: {{ detail.totalScoops }}</p>
-            <div>
-              <p>Gusti:</p>
-              <ul>
-                <li *ngFor="let scoop of detail.scoopQuantities">
-                  {{ scoop.numberOfScoops }} pallina/e di
-                  {{ scoop.flavour.name }}
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </ng-container>
 
     <div class="gusti">
       <h2>Lista Gusti</h2>
@@ -141,16 +201,5 @@
         </td>
       </tr>
     </table>
-
-    <div
-      *ngIf="flavours.length === 0 && !errorMessage"
-      class="alert alert-info"
-    >
-      Non ci sono gusti
-    </div>
-
-    <div *ngIf="errorMessage" class="alert alert-danger">
-      {{ errorMessage }}
-    </div>
   </main>
 </div>

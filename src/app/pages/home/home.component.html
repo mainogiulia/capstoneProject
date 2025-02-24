@@ -19,13 +19,6 @@
     <div class="reservation_container">
       <h3>Prenota un tavolo!</h3>
 
-      <div class="success-message" *ngIf="successMessage">
-        {{ successMessage }}
-      </div>
-      <div>
-        <p *ngIf="cancelMessage">{{ cancelMessage }}</p>
-      </div>
-
       <form #reservationForm="ngForm" (ngSubmit)="createReservation()">
         <div>
           <label for="customerName">Nome</label>
@@ -45,6 +38,8 @@
             name="email"
             type="email"
             required
+            #emailInput="ngModel"
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
           />
         </div>
 
@@ -61,7 +56,7 @@
           />
         </div>
 
-        <div>
+        <div class="reserve_wrapper">
           <label for="reservationTime">Orario</label>
           <select
             id="reservationTime"
@@ -99,56 +94,85 @@
 
       <div>
         <div class="cancelForm">
-          <h5>Vuoi cancellare una prenotazione?</h5>
-          <button class="btn" (click)="togglePopup()">
-            <i class="bi bi-question-circle"></i>
+          <button
+            type="button"
+            class="btn cancelBtn"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            data-bs-whatever="@mdo"
+          >
+            Vuoi cancellare una prenotazione?
           </button>
-          <div *ngIf="isPopupVisible" (click)="togglePopup()"></div>
 
-          <div class="popup" *ngIf="isPopupVisible">
-            <p>
-              Inserisci il nome con cui hai effettuato la prenotazione e <br />
-              il codice di cancellazione che puoi trovare nalla email di
-              conferma.
-            </p>
-            <button class="close-btn" (click)="togglePopup()">Chiudi</button>
-          </div>
-        </div>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    CANCELLA PRENOTAZIONE
+                  </h1>
 
-        <form #cancelForm="ngForm" (ngSubmit)="cancelReservation()">
-          <div>
-            <label for="cancelCustomerName">Nome</label>
-            <input
-              id="cancelCustomerName"
-              [(ngModel)]="cancelRequest.customerName"
-              name="customerName"
-              required
-            />
-          </div>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <i class="bi bi-x-lg"></i>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div>
+                    <p>
+                      Inserisci il nome con cui hai effettuato la prenotazione e
+                      <br />
+                      il codice di cancellazione che puoi trovare nalla email di
+                      conferma.
+                    </p>
+                  </div>
+                  <form #cancelForm="ngForm" (ngSubmit)="cancelReservation()">
+                    <div>
+                      <label for="cancelCustomerName">Nome</label>
+                      <input
+                        id="cancelCustomerName"
+                        [(ngModel)]="cancelRequest.customerName"
+                        name="customerName"
+                        required
+                      />
+                    </div>
 
-          <div>
-            <label for="cancelCode">Codice</label>
-            <input
-              id="cancelCode"
-              [(ngModel)]="cancelRequest.cancellationCode"
-              name="cancellationCode"
-              required
-            />
-          </div>
+                    <div>
+                      <label for="cancelCode">Codice</label>
+                      <input
+                        id="cancelCode"
+                        [(ngModel)]="cancelRequest.cancellationCode"
+                        name="cancellationCode"
+                        required
+                      />
+                    </div>
 
-          <div class="popover-container">
-            <button
-              class="btn cancelBtn"
-              type="submit"
-              [disabled]="!cancelForm.valid"
-            >
-              Cancella prenotazione
-            </button>
-            <div class="popover" *ngIf="!reservationForm.valid">
-              Completare tutti i campi
+                    <button
+                      class="btn cancelBtn"
+                      type="submit"
+                      [disabled]="!cancelForm.valid"
+                    >
+                      Cancella
+                    </button>
+                    <div class="popover" *ngIf="!reservationForm.valid">
+                      Completare tutti i campi
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
 
@@ -217,6 +241,29 @@
           offre un ambiente intimo e ricercato, dove ogni cliente può lasciarsi
           sorprendere da creazioni uniche e dal perfetto equilibrio di sapori.
         </p>
+      </div>
+    </div>
+
+    <div class="toast-container">
+      <div
+        *ngIf="successMessage"
+        class="toast toast-success"
+        [class.toast-fade-out]="isSuccessFading"
+      >
+        <div class="toast-icon">✓</div>
+        <div class="toast-message">{{ successMessage }}</div>
+        <button class="toast-close" (click)="clearSuccessMessage()">×</button>
+      </div>
+
+      <div
+        *ngIf="cancelMessage"
+        class="toast"
+        [ngClass]="isCancelSuccess ? 'toast-success' : 'toast-error'"
+        [class.toast-fade-out]="isCancelFading"
+      >
+        <div class="toast-icon">{{ isCancelSuccess ? "✓" : "✗" }}</div>
+        <div class="toast-message">{{ cancelMessage }}</div>
+        <button class="toast-close" (click)="clearCancelMessage()">×</button>
       </div>
     </div>
   </main>

@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, tap, throwError } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap, throwError } from 'rxjs';
 import { iReservation } from '../interfaces/i-reservation';
 import { iCancelReservation } from '../interfaces/i-cancel-reservation';
 import { environment } from '../../environments/environment.development';
@@ -85,18 +85,27 @@ export class ReservationService {
   }
 
   //DISDETTA PRENOTAZIONE DA PARTE DEL CLIENTE TRAMITE CODICE
-  cancelReservation(request: iCancelReservation): Observable<iReservation> {
+  cancelReservation(
+    request: iCancelReservation
+  ): Observable<iReservation | { success: boolean }> {
     return this.http
       .delete<iReservation>(`${this.reservationUrl}/cancel`, {
         body: request,
+        observe: 'response',
       })
       .pipe(
-        tap((canceledReservation) => {
-          const updatedReservations =
-            this.getReservationsFromLocalStorage().filter(
-              (res) => res.id !== canceledReservation.id
+        map((response: HttpResponse<iReservation>) => {
+          if (response.status === 204) {
+            const reservations = this.getReservationsFromLocalStorage();
+            const updatedReservations = reservations.filter(
+              (res) =>
+                res.customerName !== request.customerName ||
+                res.cancellationCode !== request.cancellationCode
             );
-          this.updateLocalStorage(updatedReservations); // RIMUOVE LA PRENOTAZIONE ANNULLATA DAL LOCAL STORAGE
+            this.updateLocalStorage(updatedReservations);
+            return { success: true };
+          }
+          return response.body ?? { success: true };
         })
       );
   }

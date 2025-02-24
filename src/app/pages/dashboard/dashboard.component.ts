@@ -18,6 +18,15 @@ export class DashboardComponent implements OnInit {
   errorMessage: string = '';
   showDetailsForOrders: { [key: number]: boolean } = {}; // OGGETTO PER I DETTAGLI DEGLI ORDINI
   selectedOrderId: number | null = null; // VARIABILE PER TENERE TRACCIA DELL'ORDINE SELEZIONATO
+  successMessage: string = '';
+  errorToastMessage: string = '';
+  notificationMessage: string = '';
+  isSuccessFading: boolean = false;
+  isErrorToastFading: boolean = false;
+  isNotificationFading: boolean = false;
+  showConfirmDialog: boolean = false;
+  confirmMessage: string = '';
+  confirmCallback: (() => void) | null = null;
 
   constructor(
     private reservationSvc: ReservationService,
@@ -42,25 +51,38 @@ export class DashboardComponent implements OnInit {
     this.reservationSvc.getReservations().subscribe({
       next: (data) => {
         this.reservations = data;
+        if (data.length === 0) {
+          this.showNotification('Non ci sono prenotazioni.');
+        }
       },
       error: (error) => {
-        this.errorMessage = 'Errore nel recupero delle prenotazioni.';
+        this.showError('Errore nel recupero delle prenotazioni.');
         console.error(error);
       },
     });
   }
 
   deleteReservation(id: number): void {
-    if (confirm('Sei sicuro di voler eliminare questa prenotazione?')) {
-      this.reservationSvc.deleteReservation(id).subscribe({
-        next: () => {
-          this.reservations = this.reservations.filter((res) => res.id !== id);
-        },
-        error: (error) => {
-          console.error("Errore nell'eliminazione della prenotazione:", error);
-        },
-      });
-    }
+    this.openConfirmDialog(
+      'Sei sicuro di voler eliminare questa prenotazione?',
+      () => {
+        this.reservationSvc.deleteReservation(id).subscribe({
+          next: () => {
+            this.reservations = this.reservations.filter(
+              (res) => res.id !== id
+            );
+            this.showSuccess('Prenotazione eliminata con successo!');
+          },
+          error: (error) => {
+            console.error(
+              "Errore nell'eliminazione della prenotazione:",
+              error
+            );
+            this.showErrorToast('Impossibile eliminare la prenotazione.');
+          },
+        });
+      }
+    );
   }
 
   //GUSTI
@@ -68,25 +90,33 @@ export class DashboardComponent implements OnInit {
     this.gelatoSvc.getFlavours().subscribe({
       next: (data) => {
         this.flavours = data;
+        if (data.length === 0) {
+          this.showNotification('Non ci sono gusti disponibili.');
+        }
       },
       error: (error) => {
-        this.errorMessage = 'Errore nel recupero dei gusti.';
+        this.showError('Errore nel recupero dei gusti.');
         console.error(error);
       },
     });
   }
 
   deleteFlavour(id: number): void {
-    if (confirm('Sei sicuro di voler eliminare questo gusto?')) {
-      this.gelatoSvc.deleteFlavour(id).subscribe({
-        next: () => {
-          this.flavours = this.flavours.filter((res) => res.id !== id);
-        },
-        error: (error) => {
-          console.error("Errore nell'eliminazione del gusto:", error);
-        },
-      });
-    }
+    this.openConfirmDialog(
+      'Sei sicuro di voler eliminare questo gusto?',
+      () => {
+        this.gelatoSvc.deleteFlavour(id).subscribe({
+          next: () => {
+            this.flavours = this.flavours.filter((res) => res.id !== id);
+            this.showSuccess('Gusto eliminato con successo!');
+          },
+          error: (error) => {
+            console.error("Errore nell'eliminazione del gusto:", error);
+            this.showErrorToast('Impossibile eliminare il gusto.');
+          },
+        });
+      }
+    );
   }
 
   loadOrders(): void {
@@ -95,19 +125,73 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  toggleDetails(orderId: number): void {
-    //SE L'ORDINE E' GIA' SELEZIONATO, LO DESELEZIONO E NASCONDO I DETTAGLI
-    if (this.selectedOrderId === orderId) {
-      this.selectedOrderId = null;
-      this.showDetailsForOrders[orderId] = false;
-    } else {
-      // NASCONDE I DETTAGLI DI TUTTI GLI ORDINI
-      this.gelatoOrders.forEach((order) => {
-        this.showDetailsForOrders[order.id] = false;
-      });
+  clearSuccessMessage(): void {
+    this.isSuccessFading = true;
+    setTimeout(() => {
+      this.successMessage = '';
+      this.isSuccessFading = false;
+    }, 300);
+  }
 
-      this.selectedOrderId = orderId;
-      this.showDetailsForOrders[orderId] = true;
+  clearErrorToastMessage(): void {
+    this.isErrorToastFading = true;
+    setTimeout(() => {
+      this.errorToastMessage = '';
+      this.isErrorToastFading = false;
+    }, 300);
+  }
+
+  clearNotificationMessage(): void {
+    this.isNotificationFading = true;
+    setTimeout(() => {
+      this.notificationMessage = '';
+      this.isNotificationFading = false;
+    }, 300);
+  }
+
+  clearErrorMessage(): void {
+    this.errorMessage = '';
+  }
+
+  // Metodi per mostrare i messaggi
+  showSuccess(message: string): void {
+    this.successMessage = message;
+    setTimeout(() => this.clearSuccessMessage(), 5000);
+  }
+
+  showErrorToast(message: string): void {
+    this.errorToastMessage = message;
+    setTimeout(() => this.clearErrorToastMessage(), 5000);
+  }
+
+  showNotification(message: string): void {
+    this.notificationMessage = message;
+    setTimeout(() => this.clearNotificationMessage(), 5000);
+  }
+
+  showError(message: string): void {
+    this.errorMessage = message;
+  }
+  openConfirmDialog(message: string, callback: () => void): void {
+    this.confirmMessage = message;
+    this.confirmCallback = callback;
+    this.showConfirmDialog = true;
+  }
+
+  onBackdropClick(event: MouseEvent): void {
+    if ((event.target as HTMLElement).className === 'confirm-dialog-backdrop') {
+      this.showConfirmDialog = false;
+    }
+  }
+
+  onCancelConfirm(): void {
+    this.showConfirmDialog = false;
+  }
+
+  onConfirm(): void {
+    this.showConfirmDialog = false;
+    if (this.confirmCallback) {
+      this.confirmCallback();
     }
   }
 }

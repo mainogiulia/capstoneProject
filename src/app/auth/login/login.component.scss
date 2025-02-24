@@ -58,3 +58,11 @@
     }
   }
 }
+
+.signup {
+  padding-top: 1rem;
+  height: 30px;
+  &:hover {
+    color: rgb(255, 154, 22);
+  }
+}

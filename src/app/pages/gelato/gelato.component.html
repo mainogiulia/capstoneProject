@@ -53,7 +53,6 @@
                 <p>€{{ cart.length * 2 }},00</p>
               </div>
 
-              <!-- Form per i dati cliente -->
               <form [formGroup]="orderForm" class="mt-3">
                 <h5>Dati per la consegna</h5>
                 <div class="mb-2">
@@ -115,7 +114,11 @@
               </form>
 
               <div class="off-btn">
-                <button class="btn pay-btn" (click)="createOrder()">
+                <button
+                  class="btn pay-btn"
+                  (click)="createOrder()"
+                  [disabled]="!orderForm.valid"
+                >
                   <img
                     src="/paypal_logo.png"
                     alt="paypalLogo"

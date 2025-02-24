@@ -2,6 +2,11 @@
   <main class="content">
     <div class="container">
       <h1>Login</h1>
+
+      <div *ngIf="showError" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+
       <form>
         <div>
           <label for="username">Username</label>
@@ -33,6 +38,9 @@
         </div>
 
         <button (click)="login()" class="btn loginBtn">Accedi</button>
+        <a routerLink="/register" class="nav-link signup"
+          >Crea un altro account admin</a
+        >
       </form>
     </div>
   </main>

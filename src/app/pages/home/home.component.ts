@@ -27,6 +27,9 @@ export class HomeComponent {
 
   successMessage: string = '';
   cancelMessage: string = '';
+  isCancelSuccess: boolean = false;
+  isSuccessFading: boolean = false;
+  isCancelFading: boolean = false;
   availableTimes: string[] = [];
 
   constructor(private reservationSvc: ReservationService) {}
@@ -37,8 +40,18 @@ export class HomeComponent {
 
   generateAvailableTimes() {
     const times: string[] = [];
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
     for (let h = 18; h < 23; h++) {
       for (let m = 0; m < 60; m += 15) {
+        if (
+          this.newReservation.reservationDate === this.minDate &&
+          (h < currentHour || (h === currentHour && m <= currentMinute))
+        ) {
+          continue;
+        }
         const hour = String(h).padStart(2, '0');
         const minute = String(m).padStart(2, '0');
         times.push(`${hour}:${minute}`);
@@ -48,12 +61,31 @@ export class HomeComponent {
   }
 
   createReservation(): void {
-    this.reservationSvc
-      .createReservation(this.newReservation)
-      .subscribe((data) => {
+    const today = new Date();
+    const selectedDate = new Date(this.newReservation.reservationDate);
+    const selectedTime = this.newReservation.reservationTime;
+
+    const [hours, minutes] = selectedTime.split(':').map(Number);
+    selectedDate.setHours(hours, minutes, 0, 0);
+
+    if (selectedDate < today) {
+      this.cancelMessage =
+        'Errore: la prenotazione deve essere per una data e ora future.';
+      return;
+    }
+
+    this.reservationSvc.createReservation(this.newReservation).subscribe({
+      next: (data) => {
         this.successMessage = 'Prenotazione creata con successo!';
+        this.autoCloseSuccessMessage();
         this.clearForm();
-      });
+      },
+      error: (error) => {
+        this.cancelMessage = 'Errore nella creazione della prenotazione.';
+        this.isCancelSuccess = false;
+        this.autoCloseCancelMessage();
+      },
+    });
   }
 
   clearForm(): void {
@@ -76,11 +108,15 @@ export class HomeComponent {
     this.reservationSvc.cancelReservation(this.cancelRequest).subscribe({
       next: () => {
         this.cancelMessage = 'Prenotazione cancellata con successo!';
+        this.isCancelSuccess = true;
+        this.autoCloseCancelMessage();
         this.clearCancelForm();
       },
       error: () => {
         this.cancelMessage =
           'Errore: prenotazione non trovata o codice errato.';
+        this.isCancelSuccess = false;
+        this.autoCloseCancelMessage();
       },
     });
   }
@@ -126,5 +162,41 @@ export class HomeComponent {
 
   ngAfterViewInit(): void {
     this.initMap();
+  }
+
+  clearSuccessMessage(): void {
+    this.animateAndClearSuccess();
+  }
+
+  clearCancelMessage(): void {
+    this.animateAndClearCancel();
+  }
+
+  autoCloseSuccessMessage(): void {
+    setTimeout(() => {
+      this.animateAndClearSuccess();
+    }, 5000);
+  }
+
+  autoCloseCancelMessage(): void {
+    setTimeout(() => {
+      this.animateAndClearCancel();
+    }, 5000);
+  }
+
+  animateAndClearSuccess(): void {
+    this.isSuccessFading = true;
+    setTimeout(() => {
+      this.successMessage = '';
+      this.isSuccessFading = false;
+    }, 300);
+  }
+
+  animateAndClearCancel(): void {
+    this.isCancelFading = true;
+    setTimeout(() => {
+      this.cancelMessage = '';
+      this.isCancelFading = false;
+    }, 300);
   }
 }

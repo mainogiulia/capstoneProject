@@ -17,7 +17,7 @@
             <h1 class="text-center">{{ question.text }}</h1>
             <div class="d-flex flex-wrap gap-5 answers_container">
               <div *ngFor="let answer of question.answers">
-                <button class="btn" (click)="selectAnswer(answer)">
+                <button class="btn answerBtn" (click)="selectAnswer(answer)">
                   {{ answer.text }}
                 </button>
               </div>
