@@ -16,11 +16,18 @@ export class QuizComponent implements OnInit {
   constructor(private quizSvc: QuizService) {}
 
   ngOnInit(): void {
-    this.startQuiz();
+    const savedDrink = sessionStorage.getItem('drinkResult');
+    if (savedDrink) {
+      this.drink = JSON.parse(savedDrink);
+      this.question = null;
+    } else {
+      this.startQuiz();
+    }
   }
 
   //INIZIA IL QUIZ E RESTITUISCE LA RPIMA DOMANDA
   startQuiz() {
+    sessionStorage.removeItem('drinkResult');
     this.quizSvc.startQuiz().subscribe((data) => {
       //data E' UN OGGETTO DI TIPO iQuestion
       this.question = data;
@@ -39,6 +46,7 @@ export class QuizComponent implements OnInit {
       } else {
         this.drink = response as iDrink;
         this.question = null;
+        sessionStorage.setItem('drinkResult', JSON.stringify(this.drink));
       }
     });
   }

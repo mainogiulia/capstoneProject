@@ -8,62 +8,42 @@
       <div class="create_container">
         <h3>Crea un nuovo gusto</h3>
 
-        <form (ngSubmit)="onSubmit()">
+        <form
+          [formGroup]="flavourForm"
+          (ngSubmit)="submit()"
+          class="form_container"
+        >
           <div>
             <label for="name">Nome:</label>
-            <input
-              id="name"
-              type="text"
-              [(ngModel)]="newFlavour.name"
-              name="name"
-              required
-            />
+            <input id="name" formControlName="name" required />
           </div>
 
           <div>
             <label for="type">Tipo:</label>
-            <select id="type" [(ngModel)]="newFlavour.type" name="type">
-              <option value="CREMA">Crema</option>
-              <option value="FRUTTA">Frutta</option>
+            <select id="type" formControlName="type">
+              <option *ngFor="let t of flavourTypes" [value]="t">
+                {{ t }}
+              </option>
             </select>
           </div>
 
           <div>
             <label for="description">Descrizione:</label>
-            <textarea
-              id="description"
-              [(ngModel)]="newFlavour.description"
-              name="description"
-            ></textarea>
+            <textarea id="description" formControlName="description"></textarea>
           </div>
 
           <div>
-            <label for="image" class="custom-file-upload"
-              >Carica un'immagine</label
+            <label for="file-upload" class="custom-file-upload"
+              >Immagine:</label
             >
             <input
-              id="image"
+              id="file-upload"
               type="file"
-              (change)="onFileChange($event)"
-              accept="image/*"
-              #fileInput
-            />
-            <div *ngIf="!selectedFile" class="file-status">
-              Nessun file selezionato
-            </div>
-            <div *ngIf="selectedFile" class="file-status">
-              File selezionato: {{ selectedFile.name }}
-            </div>
-            <img
-              *ngIf="imagePreview"
-              [src]="imagePreview"
-              alt="Anteprima immagine"
-              style="max-width: 300px; margin-top: 10px"
+              (change)="onFileSelected($event)"
             />
           </div>
 
-          <button type="submit" class="btn">Create Flavour</button>
-          <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+          <div><button type="submit" class="btn">Crea Gusto</button></div>
         </form>
       </div>
     </div>

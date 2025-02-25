@@ -27,10 +27,13 @@
               <p>Nel tuo ordine:</p>
               <ul class="list-group mb-4">
                 <li
-                  class="list-group-item"
+                  class="list-group-item d-flex justify-content-between align-items-center"
                   *ngFor="let flavour of orderFlavours"
                 >
-                  {{ flavour.name }}
+                  <span>{{ flavour.name }}</span>
+                  <span class="badge rounded-pill">{{
+                    getQuantity(flavour.id)
+                  }}</span>
                 </li>
               </ul>
               <button class="btn" routerLink="/">Torna alla Home</button>

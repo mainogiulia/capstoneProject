@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { GelatoService } from '../../services/gelato.service';
 import { iFlavour } from '../../interfaces/i-flavour';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-new-flavour',
@@ -18,93 +19,54 @@ export class NewFlavourComponent {
 
   errorMessage: string = '';
   selectedFile: File | null = null;
+  flavourForm: FormGroup;
   imagePreview: string | ArrayBuffer | null = null;
+  flavourTypes: ('CREMA' | 'FRUTTA')[] = ['CREMA', 'FRUTTA'];
 
-  constructor(private gelatoSvc: GelatoService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private gelatoSvc: GelatoService,
+    private router: Router
+  ) {
+    this.flavourForm = this.fb.group({
+      name: [''],
+      type: [''],
+      description: [''],
+      image: [''],
+    });
+  }
 
-  //GESTISCO LA SELEZIONE DI UN FILE TRAMITE IL CAMPO INPUT FILE
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    console.log('File input change:', input.files);
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
 
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      console.log(
-        'File selezionato:',
-        this.selectedFile.name,
-        this.selectedFile.size
-      );
-
+    if (this.selectedFile) {
       const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-        console.log('Anteprima generata');
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
       };
       reader.readAsDataURL(this.selectedFile);
-    } else {
-      console.log('Nessun file selezionato o operazione annullata');
     }
   }
 
-  onImageUpload(file: File) {
-    if (!this.selectedFile) {
-      console.error('Nessun file selezionato!');
-      return;
-    }
-    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
-      next: (imagePath: string) => {
-        console.log('Immagine caricata, percorso restituito:', imagePath);
-        this.newFlavour.imagePath = imagePath;
-        this.createFlavour();
-      },
-      error: (error) => {
-        console.error("Errore nel caricamento dell'immagine", error);
-      },
-    });
-  }
-
-  onSubmit(): void {
-    console.log('Form inviato', this.newFlavour);
-
-    if (!this.newFlavour.name || !this.newFlavour.type) {
-      this.errorMessage = 'Nome e tipo sono obbligatori!';
-      return;
-    }
-
-    // SE E' STATO SELEZIONATO UN FILE, CARICALO PRIMA DI INVIARE IL GUSTO
-    if (this.selectedFile) {
-      this.uploadImageAndCreateFlavour();
-    } else {
-      console.log('Nessuna immagine, creo direttamente il gusto');
-      this.createFlavour();
-    }
-  }
-
-  private uploadImageAndCreateFlavour(): void {
+  submit() {
     if (!this.selectedFile) return;
 
-    this.gelatoSvc.uploadImage(this.selectedFile).subscribe({
-      next: (imagePath: string) => {
-        console.log('Immagine caricata, percorso restituito:', imagePath);
-        this.newFlavour.imagePath = imagePath;
-        this.createFlavour();
-      },
-      error: (error) => {
-        this.errorMessage = "Errore nell'upload dell'immagine.";
-        console.error("Errore nel caricamento dell'immagine", error);
-      },
-    });
-  }
+    const formData = new FormData();
+    formData.append('name', this.flavourForm.get('name')?.value);
+    const flavourType = this.flavourForm.get('type')?.value;
+    console.log('Selected Type:', flavourType);
+    formData.append('type', flavourType);
+    formData.append('description', this.flavourForm.get('description')?.value);
+    formData.append('image', this.selectedFile);
 
-  private createFlavour(): void {
-    this.gelatoSvc.createFlavour(this.newFlavour).subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
+    this.gelatoSvc.createFlavour(formData).subscribe({
+      next: (response) => {
+        console.log('Flavour created:', response);
+
+        this.flavourForm.reset();
       },
-      error: (error) => {
-        this.errorMessage = 'Errore nella creazione del gusto.';
-        console.error(error);
-      },
+      error: (error) => console.error('Upload failed:', error),
+      complete: () => console.log('Upload complete!'),
     });
   }
 }

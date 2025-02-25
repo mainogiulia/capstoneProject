@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
 import { iFlavour } from '../interfaces/i-flavour';
 import { environment } from '../../environments/environment.development';
 
@@ -36,15 +36,15 @@ export class GelatoService {
   }
 
   //CREO UN NUOVO GUSTO (ADMIN)
-  createFlavour(newFlavour: Partial<iFlavour>) {
+  createFlavour(newFlavour: FormData): Observable<iFlavour> {
     return this.http.post<iFlavour>(this.flavourUrl, newFlavour, {
       headers: this.getHeaders(),
     });
   }
 
   //MODIFICO UN GUSTO (ADMIN)
-  editFlavour(id: number, flavour: iFlavour) {
-    return this.http.put<iFlavour>(`${this.flavourUrl}/${id}`, flavour, {
+  editFlavour(id: number, formData: FormData) {
+    return this.http.put<iFlavour>(`${this.flavourUrl}/${id}`, formData, {
       headers: this.getHeaders(),
     });
   }
@@ -64,8 +64,18 @@ export class GelatoService {
   uploadImage(file: File): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<string>(`${this.flavourUrl}/upload`, formData, {
-      headers: this.getHeaders(),
-    });
+    console.log('FormData:', formData);
+    return this.http
+      .post<string>(`${this.flavourUrl}/upload`, formData, {
+        headers: this.getHeaders(),
+      })
+      .pipe(
+        catchError((error) => {
+          console.error("Errore nel caricamento dell'immagine:", error); // Mostra dettagli dell'errore
+          return throwError(
+            () => new Error("Errore nel caricamento dell'immagine")
+          ); // Rilancia l'errore affinché possa essere gestito
+        })
+      );
   }
 }

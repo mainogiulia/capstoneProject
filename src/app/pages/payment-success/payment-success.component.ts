@@ -14,6 +14,7 @@ export class PaymentSuccessComponent implements OnInit {
   errorMessage = '';
   customerEmail = '';
   orderFlavours: any[] = [];
+  orderQuantities: { [key: string]: number } = {}; //PER TENERE TRACCIA DELLE QUANTITA'
 
   constructor(
     private route: ActivatedRoute,
@@ -35,7 +36,19 @@ export class PaymentSuccessComponent implements OnInit {
         // RECUPERA I GUSTI DAL CARRELLO
         const cartData = sessionStorage.getItem('cart');
         if (cartData) {
-          this.orderFlavours = JSON.parse(cartData);
+          const cartItems = JSON.parse(cartData);
+
+          this.orderFlavours = cartItems.map((item: any) => {
+            if (item.flavour && item.quantity) {
+              this.orderQuantities[item.flavour.id] = item.quantity;
+              return item.flavour;
+            }
+
+            return item;
+          });
+
+          console.log('Extracted flavours:', this.orderFlavours);
+          console.log('Quantities:', this.orderQuantities);
         }
       }
 
@@ -70,5 +83,9 @@ export class PaymentSuccessComponent implements OnInit {
           'Dati di pagamento mancanti. Impossibile completare la transazione.';
       }
     });
+  }
+
+  getQuantity(flavourId: string): number {
+    return this.orderQuantities[flavourId] || 1;
   }
 }

@@ -3,6 +3,7 @@ import { iFlavour } from '../../interfaces/i-flavour';
 import { GelatoService } from '../../services/gelato.service';
 import { PayPalService } from '../../services/pay-pal.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { iCartItem } from '../../interfaces/i-cart-item';
 declare var bootstrap: any;
 
 @Component({
@@ -12,7 +13,7 @@ declare var bootstrap: any;
 })
 export class GelatoComponent implements OnInit {
   flavours: iFlavour[] = [];
-  cart: iFlavour[] = [];
+  cart: iCartItem[] = [];
   creamFlavours: iFlavour[] = [];
   fruitFlavours: iFlavour[] = [];
   paymentStatus: string = '';
@@ -28,13 +29,12 @@ export class GelatoComponent implements OnInit {
     this.orderForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      date: ['null', Validators.required],
+      datetime: ['null', Validators.required],
     });
   }
 
   ngOnInit(): void {
     this.gelatoSvc.getFlavours().subscribe((data) => {
-      data.forEach((f) => console.log(`${f.name}: ${f.imagePath}`));
       this.flavours = data;
       this.creamFlavours = this.flavours.filter((f) => f.type === 'CREMA');
       this.fruitFlavours = this.flavours.filter((f) => f.type === 'FRUTTA');
@@ -65,7 +65,27 @@ export class GelatoComponent implements OnInit {
   }
 
   addToOrder(flavour: iFlavour): void {
-    this.cart.push(flavour);
+    const existingItem = this.cart.find(
+      (item) => item.flavour.id === flavour.id
+    );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      this.cart.push({ flavour, quantity: 1 });
+    }
+
+    sessionStorage.setItem('cart', JSON.stringify(this.cart));
+  }
+
+  decreaseQuantity(cartItem: iCartItem): void {
+    if (cartItem.quantity > 1) {
+      cartItem.quantity -= 1;
+    } else {
+      this.removeFromOrder(cartItem.flavour);
+      return;
+    }
+
     sessionStorage.setItem('cart', JSON.stringify(this.cart));
   }
 
@@ -76,12 +96,20 @@ export class GelatoComponent implements OnInit {
   }
 
   removeFromOrder(flavour: iFlavour): void {
-    const index = this.cart.findIndex((item) => item.name === flavour.name);
+    const index = this.cart.findIndex((item) => item.flavour.id === flavour.id);
 
     if (index !== -1) {
       this.cart.splice(index, 1);
       sessionStorage.setItem('cart', JSON.stringify(this.cart));
     }
+  }
+
+  getTotalItems(): number {
+    return this.cart.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  getSubtotal(): number {
+    return this.cart.reduce((total, item) => total + item.quantity * 2, 0);
   }
 
   clearCart(): void {
@@ -96,31 +124,34 @@ export class GelatoComponent implements OnInit {
       alert('Per favore, compila tutti i campi richiesti');
       return;
     }
-    const totalScoops = this.cart.length;
+    const totalScoops = this.getTotalItems();
 
     // PREPARA I DATI DELL'ORDINE
-    const orderData = {
+    const selectedDateTime = this.orderForm.get('datetime')?.value;
+
+    const orderDate = {
       costumerName: this.orderForm.get('name')?.value,
       email: this.orderForm.get('email')?.value,
-      orderDate: new Date(),
+      orderDate: selectedDateTime,
       details: [
         {
           totalScoops: totalScoops,
-          scoopQuantities: this.cart.map((flavour) => ({
-            flavourId: flavour.id,
-            numberOfScoops: 1,
+          scoopQuantities: this.cart.map((item) => ({
+            flavourId: item.flavour.id,
+
+            numberOfScoops: item.quantity,
           })),
         },
       ],
     };
 
     // SALVA I DATI DELL'ORDINE NEL SESSION STORAGE
-    sessionStorage.setItem('pendingOrderData', JSON.stringify(orderData));
+    sessionStorage.setItem('pendingOrderData', JSON.stringify(orderDate));
 
-    this.payPalSvc.createOrder(totalScoops, orderData).subscribe({
+    this.payPalSvc.createOrder(totalScoops, orderDate).subscribe({
       next: (response) => {
-        this.orderId = response.orderId; // Salva l'ID dell'ordine
-        sessionStorage.setItem('currentOrderId', this.orderId); // Salva in sessionStorage
+        this.orderId = response.orderId;
+        sessionStorage.setItem('currentOrderId', this.orderId);
         window.location.href = response.approvalUrl;
       },
       error: (error) => {

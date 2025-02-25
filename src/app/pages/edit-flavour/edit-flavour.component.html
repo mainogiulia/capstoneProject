@@ -7,9 +7,49 @@
       </button>
 
       <div class="edit_container">
-        <h3>Modifica gusto</h3>
+        <h3>Modifica gusto: {{ currentFlavour?.name }}</h3>
 
-        <form (ngSubmit)="onSubmit()">
+        <form
+          [formGroup]="flavourForm"
+          (ngSubmit)="submit()"
+          class="form_container"
+        >
+          <div>
+            <label for="name">Nome:</label>
+            <input id="name" formControlName="name" required />
+          </div>
+
+          <div>
+            <label for="type">Tipo:</label>
+            <select id="type" formControlName="type">
+              <option *ngFor="let t of flavourTypes" [value]="t">
+                {{ t }}
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="description">Descrizione:</label>
+            <textarea id="description" formControlName="description"></textarea>
+          </div>
+
+          <div>
+            <label for="file-upload" class="custom-file-upload"
+              >Immagine:</label
+            >
+            <input
+              id="file-upload"
+              type="file"
+              (change)="onFileSelected($event)"
+            />
+          </div>
+
+          <div class="buttons">
+            <button type="submit" class="btn save">Salva Modifiche</button>
+          </div>
+        </form>
+
+        <!-- <form (ngSubmit)="onSubmit()">
           <div>
             <label for="name">Nome</label>
             <input
@@ -53,7 +93,7 @@
 
           <button type="submit" class="btn">Modifica gusto</button>
           <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-        </form>
+        </form> -->
       </div>
     </div>
   </main>

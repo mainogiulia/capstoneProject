@@ -13,7 +13,7 @@
   height: 300px;
   background-image: url("/fotobar.png");
   background-size: cover;
-  background-position: center -500px;
+  background-position: center -650px;
   color: white;
   display: flex;
   justify-content: center;
@@ -53,6 +53,7 @@
   position: relative;
   margin-top: 2rem;
   width: 100%;
+  padding-bottom: 2rem;
 }
 
 .quiz-container {

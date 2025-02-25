@@ -18,12 +18,12 @@ export class PayPalService {
   //CREO L'ORDINE DI PAYPAL
   createOrder(
     totalScoops: number,
-    orderData: any
+    orderDate: any
   ): Observable<{ approvalUrl: string; orderId: string }> {
     return this.http
       .post<{ approvalUrl: string; orderId: string }>(
         `${this.paypalUrl}/createOrder?totalScoops=${totalScoops}`,
-        orderData,
+        orderDate,
         {
           headers: { 'Content-Type': 'application/json' },
         }
